@@ -14,6 +14,7 @@ import com.makro.mall.admin.pojo.entity.MmCustomer;
 import com.makro.mall.admin.pojo.entity.MmMemberType;
 import com.makro.mall.admin.pojo.vo.MmCustomerVO;
 import com.makro.mall.common.constants.PulsarConstants;
+import com.makro.mall.common.util.AesBase62Util;
 import com.makro.mall.pulsar.annotation.PulsarConsumer;
 import com.makro.mall.stat.pojo.entity.AppUvRecord;
 import com.makro.mall.stat.pojo.entity.GoodClickRecord;
@@ -64,7 +65,6 @@ public class SinkClickHouseConsumer {
                 log.info(notification.getKey() + " was removed, cause is " + notification.getCause());
             })
             .build(new CacheLoader<>() {
-                @NotNull
                 @Override
                 public MmCustomerVO load(@NotNull MmCustomer key) {
                     return customerFeignClient.getVO(key).getData();
@@ -79,6 +79,7 @@ public class SinkClickHouseConsumer {
             BeanUtil.copyProperties(record, goodsClickLog);
             //如果渠道是APP则不解密
             boolean app = StrUtil.equals("app", record.getChannel());
+            goodsClickLog.setMemberNo(app ? goodsClickLog.getMemberNo() : AesBase62Util.decode(goodsClickLog.getMemberNo()));
             if (StrUtil.isNotBlank(goodsClickLog.getMemberNo())) {
                 MmCustomer mmCustomer = app ? new MmCustomer().setCustomerCode(goodsClickLog.getMemberNo()) : new MmCustomer().setId(Long.valueOf(goodsClickLog.getMemberNo()));
                 MmCustomerVO customerVO = CACHE.get(mmCustomer);
@@ -95,7 +96,7 @@ public class SinkClickHouseConsumer {
             goodsClickLogService.add(goodsClickLog);
             log.info("consumeGoodsClick 处理消息完毕，goodsClickLog{}", goodsClickLog);
         } catch (Exception e) {
-            log.error("consumeGoodsClick 处理消息异常，record{}", JSON.toJSONString(record), e);
+            log.error("consumeGoodsClick 处理消息异常，record{} e{}", JSON.toJSONString(record), e);
         }
     }
 
@@ -107,6 +108,7 @@ public class SinkClickHouseConsumer {
             BeanUtil.copyProperties(record, pageViewLog);
             //如果渠道是APP则不解密
             boolean app = StrUtil.equals("app", record.getChannel());
+            pageViewLog.setMemberNo(app ? pageViewLog.getMemberNo() : AesBase62Util.decode(pageViewLog.getMemberNo()));
             if (StrUtil.isNotBlank(pageViewLog.getMemberNo())) {
                 MmCustomer mmCustomer = app ? new MmCustomer().setCustomerCode(pageViewLog.getMemberNo()) : new MmCustomer().setId(Long.valueOf(pageViewLog.getMemberNo()));
                 MmCustomerVO customerVO = CACHE.get(mmCustomer);
@@ -122,7 +124,7 @@ public class SinkClickHouseConsumer {
             pageViewLogService.add(pageViewLog);
             log.info("consumePageView 处理消息完毕，pageViewLog{}", pageViewLog);
         } catch (Exception e) {
-            log.error("consumePageView 处理消息异常，record{}", JSON.toJSONString(record), e);
+            log.error("consumePageView 处理消息异常，record{} e{}", JSON.toJSONString(record), e);
         }
     }
 
@@ -134,6 +136,7 @@ public class SinkClickHouseConsumer {
             BeanUtil.copyProperties(record, pageStayLog);
             //如果渠道是APP则不解密
             boolean app = StrUtil.equals("app", record.getChannel());
+            pageStayLog.setMemberNo(app ? pageStayLog.getMemberNo() : AesBase62Util.decode(pageStayLog.getMemberNo()));
             if (StrUtil.isNotBlank(pageStayLog.getMemberNo())) {
                 MmCustomer mmCustomer = app ? new MmCustomer().setCustomerCode(pageStayLog.getMemberNo()) : new MmCustomer().setId(Long.valueOf(pageStayLog.getMemberNo()));
                 MmCustomerVO customerVO = CACHE.get(mmCustomer);
@@ -149,7 +152,7 @@ public class SinkClickHouseConsumer {
             pageStayLogService.save(pageStayLog);
             log.info("consumePageStay 处理消息完毕，pageStayLog{}", pageStayLog);
         } catch (Exception e) {
-            log.error("consumePageStay 处理消息异常，record{}", JSON.toJSONString(record), e);
+            log.error("consumePageStay 处理消息异常，record{} e{}", JSON.toJSONString(record), e);
         }
     }
 
@@ -174,7 +177,7 @@ public class SinkClickHouseConsumer {
             appUvLogService.save(appUvLog);
             log.info("consumeAppUv 处理消息完毕，appUvLog{}", appUvLog);
         } catch (Exception e) {
-            log.error("consumeAppUv 处理消息异常，record{}", JSON.toJSONString(record), e);
+            log.error("consumeAppUv 处理消息异常，record{} e{}", JSON.toJSONString(record), e);
         }
     }
 

@@ -28,7 +28,6 @@ import com.makro.mall.common.model.AdminStatusCode;
 import com.makro.mall.common.model.Assert;
 import com.makro.mall.common.model.MakroPage;
 import com.makro.mall.common.model.SortPageRequest;
-import com.makro.mall.common.util.AesBase62Util;
 import com.makro.mall.common.web.util.JwtUtils;
 import com.makro.mall.message.api.MailMessageFeignClient;
 import com.makro.mall.message.dto.MailSubscriptionFeignDTO;
@@ -394,7 +393,7 @@ public class MmPublishJobEmailTaskServiceImpl extends ServiceImpl<MmPublishJobEm
      * @Date: 2022/9/13 mm发布 短链
      */
     public String shortLink(MmPublishJobEmailTask task, Long id) {
-        String url = task.getPublishUrl().replace("${c}", AesBase62Util.encode(id));
+        String url = task.getPublishUrl().replace("${c}", String.valueOf(id));
         String shortLink = shortLinkFeignClient.shortLink(new ShortLinkGenerateDTO(url, null)).getMsg();
         return task.getTemplate().replace("${publishUrl}", shortLink);
     }

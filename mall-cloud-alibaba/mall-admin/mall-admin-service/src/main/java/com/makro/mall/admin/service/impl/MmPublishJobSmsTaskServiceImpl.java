@@ -28,7 +28,6 @@ import com.makro.mall.common.model.AdminStatusCode;
 import com.makro.mall.common.model.Assert;
 import com.makro.mall.common.model.MakroPage;
 import com.makro.mall.common.model.SortPageRequest;
-import com.makro.mall.common.util.AesBase62Util;
 import com.makro.mall.common.web.util.JwtUtils;
 import com.makro.mall.message.api.MessagePropertiesFeignClient;
 import com.makro.mall.message.api.SmsFeignClient;
@@ -328,7 +327,7 @@ public class MmPublishJobSmsTaskServiceImpl extends ServiceImpl<MmPublishJobSmsT
      * @Date: 2022/12/5 模板拼接 {name}
      */
     public String shotLink(MmPublishJobSmsTask task, MmPublishJobTaskLog customer) {
-        String url = task.getPublishUrl().replace("${c}", AesBase62Util.encode(customer.getCustomerId()));
+        String url = task.getPublishUrl().replace("${c}", String.valueOf(customer.getCustomerId()));
         String shortLink = shortLinkFeignClient.shortLink(new ShortLinkGenerateDTO(url, null)).getMsg();
         String urlStr = task.getMsg().replace("{url}", shortLink);
         return task.getMsg().contains("{name}") ? urlStr.replace("{name}", customer.getCustomerName()) : urlStr;

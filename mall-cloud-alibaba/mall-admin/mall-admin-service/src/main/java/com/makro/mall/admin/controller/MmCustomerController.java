@@ -8,7 +8,6 @@ import com.makro.mall.admin.pojo.vo.MmCustomerVO;
 import com.makro.mall.admin.pojo.vo.VerifyCustomerRepVO;
 import com.makro.mall.admin.service.MmCustomerService;
 import com.makro.mall.common.model.*;
-import com.makro.mall.common.util.AesBase62Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -119,12 +118,6 @@ public class MmCustomerController {
     public BaseResponse<VerifyCustomerRepVO> verifyCustomer(@ApiParam("customerCode/phone 用逗号隔开") String data,
                                                             @ApiParam("传入 customerCode/phone") String field) {
         return BaseResponse.success(mmCustomerService.verifyCustomer(data, field));
-    }
-
-    @ApiOperation(value = "会员编码解密")
-    @GetMapping("/encrypt")
-    public BaseResponse<String> encrypt(String code) {
-        return BaseResponse.success(AesBase62Util.decode(code));
     }
 
 }

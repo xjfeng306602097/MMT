@@ -4,7 +4,6 @@ import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.makro.mall.admin.CustomSpringbootTest;
-import com.makro.mall.common.util.AesBase62Util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -38,9 +37,8 @@ public class RequestTrackTest2 {
         List<String> itemCode2 = List.of("0", "187898", "123155");
         List<String> channels = List.of("email", "sms", "line");
         List<String> randomEleList = RandomUtil.randomEleList(memberIds, 2);
-        for (String random : randomEleList) {
-            log.info(random);
-            String memberId = AesBase62Util.encode(Long.valueOf(random));
+        for (String memberId : randomEleList) {
+            log.info(memberId);
             //随机渠道
             String channel = RandomUtil.randomEle(channels);
             String bizId = UUID.randomUUID().toString();

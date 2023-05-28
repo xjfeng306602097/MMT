@@ -2,4 +2,4 @@
 #SpringBoot读取配置文件顺序：bootstrap.yml>bootstrap.yaml>bootstrap.properties>nacos的配置>application.yml>application.yaml>application.properties
 spring:
   profiles:
-    active: uat
+    active: local

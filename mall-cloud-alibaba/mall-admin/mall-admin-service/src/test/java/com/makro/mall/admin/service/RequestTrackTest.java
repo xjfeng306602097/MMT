@@ -1,12 +1,25 @@
 package com.makro.mall.admin.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.makro.mall.admin.CustomSpringbootTest;
+import com.makro.mall.admin.pojo.entity.MmCustomer;
+import com.makro.mall.admin.pojo.entity.MmPublishJobTaskLog;
 import com.makro.mall.admin.pojo.vo.MmCustomerPageReqVO;
 import com.makro.mall.admin.pojo.vo.MmCustomerVO;
+import com.makro.mall.common.enums.MessageSendEnum;
+import com.makro.mall.common.model.AdminStatusCode;
+import com.makro.mall.common.model.Assert;
 import com.makro.mall.common.model.MakroPage;
+import com.makro.mall.common.util.AesBase62Util;
+import com.makro.mall.message.dto.MailSubscriptionFeignDTO;
+import com.makro.mall.message.pojo.entity.MailSubscription;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,12 +30,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 /**
  * @author xiaojunfeng
@@ -98,7 +110,7 @@ public class RequestTrackTest {
                 String bizId = UUID.randomUUID().toString();
                 String userAgent = USER_AGENTS.get(rand.nextInt(USER_AGENTS.size()));
                 String ip = IP_ADDRESS.get(rand.nextInt(IP_ADDRESS.size()));
-                String memberId = String.valueOf(c.getId());
+                String memberId = AesBase62Util.encode(c.getId());
                 try {
                     // email
                     // page 1
@@ -153,7 +165,7 @@ public class RequestTrackTest {
                     String bizId = UUID.randomUUID().toString();
                     String userAgent = USER_AGENTS.get(rand.nextInt(USER_AGENTS.size()));
                     String ip = IP_ADDRESS.get(rand.nextInt(IP_ADDRESS.size()));
-                    String memberId = String.valueOf(c.getId());
+                    String memberId = AesBase62Util.encode(c.getId());
                     try {
                         // email
                         // page 1

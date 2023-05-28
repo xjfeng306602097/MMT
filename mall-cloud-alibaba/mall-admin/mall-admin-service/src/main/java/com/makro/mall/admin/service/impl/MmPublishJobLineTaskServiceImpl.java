@@ -27,6 +27,7 @@ import com.makro.mall.common.model.AdminStatusCode;
 import com.makro.mall.common.model.Assert;
 import com.makro.mall.common.model.MakroPage;
 import com.makro.mall.common.model.SortPageRequest;
+import com.makro.mall.common.util.AesBase62Util;
 import com.makro.mall.common.web.util.JwtUtils;
 import com.makro.mall.message.api.LineFeignClient;
 import com.makro.mall.message.api.MessagePropertiesFeignClient;
@@ -267,7 +268,7 @@ public class MmPublishJobLineTaskServiceImpl extends ServiceImpl<MmPublishJobLin
                     String sendTo = user.getSendTo();
                     String url = activity.getPublishUrl()
                             + "?q=line"
-                            + "&c=" + user.getCustomerId()
+                            + "&c=" + AesBase62Util.encode(user.getCustomerId())
                             + "&p=" + pageNo
                             + "&s=" + activity.getStoreCode();
                     redisTemplate.opsForValue().setIfAbsent(getKey(sendTo, mmCode, pageNo), url, 30, TimeUnit.DAYS);

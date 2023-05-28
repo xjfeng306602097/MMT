@@ -10,6 +10,7 @@ import com.makro.mall.admin.api.MmActivityFeignClient;
 import com.makro.mall.admin.pojo.entity.MmActivity;
 import com.makro.mall.common.model.Assert;
 import com.makro.mall.common.model.MessageStatusCode;
+import com.makro.mall.common.util.AesBase62Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -100,7 +101,7 @@ public class MmPublishUrlCache {
             // 3. 设置缓存 就算查到空也缓存
             //查询用户lineId对应userId 进行加密
             Long userId = customerFeignClient.getByLineId(lineId).getData();
-            String c = ObjectUtil.isNull(userId) ? "" : String.valueOf(userId);
+            String c = ObjectUtil.isNull(userId) ? "" : AesBase62Util.encode(userId);
 
             url = mmActivity.getPublishUrl()
                     + "?q=line"

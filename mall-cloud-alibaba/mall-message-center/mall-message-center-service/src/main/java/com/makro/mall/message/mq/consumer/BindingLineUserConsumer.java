@@ -1,7 +1,10 @@
 package com.makro.mall.message.mq.consumer;
 
+import cn.hutool.core.util.StrUtil;
 import com.makro.mall.admin.api.CustomerFeignClient;
+import com.makro.mall.admin.pojo.vo.MmCustomerVO;
 import com.makro.mall.common.constants.PulsarConstants;
+import com.makro.mall.common.util.AesBase62Util;
 import com.makro.mall.message.pojo.dto.BindingLineUserDTO;
 import com.makro.mall.pulsar.annotation.PulsarConsumer;
 import lombok.RequiredArgsConstructor;

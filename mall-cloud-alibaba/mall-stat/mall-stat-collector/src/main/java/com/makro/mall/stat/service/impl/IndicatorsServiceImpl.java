@@ -832,7 +832,13 @@ public class IndicatorsServiceImpl implements IndicatorsService {
             String finalMmCode = mmCode;
             List<PagePageNo> collect = assemblyManager.getPagePageNo(endTime).stream().filter(x -> StrUtil.equals(x.getMmCode(), finalMmCode)).collect(Collectors.toList());
             if (CollUtil.isEmpty(list)) {
-                list = collect;
+                Map<String, Long> map = collect.stream().collect(Collectors.groupingBy(PagePageNo::getPageNo, Collectors.summingLong(PagePageNo::getPv)));
+                list = map.keySet().stream().map(x -> {
+                    PagePageNo pagePageNo = new PagePageNo();
+                    pagePageNo.setPageNo(x);
+                    pagePageNo.setPv(map.get(x));
+                    return pagePageNo;
+                }).collect(Collectors.toList());
             } else {
                 list.forEach(x -> x.setPv(x.getPv() + collect.stream().filter(y -> StrUtil.equals(x.getPageNo(), y.getPageNo())).mapToLong(PagePageNo::getPv).sum()));
             }

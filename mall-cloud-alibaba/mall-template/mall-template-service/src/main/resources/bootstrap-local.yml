@@ -11,7 +11,7 @@ spring:
       # 注册中心
       discovery:
         server-addr: ${custom.nacos.address:10.58.5.152:8848}
-        group: ${custom.nacos.discovery.group:LOCAL_GROUP_1}
+        group: ${custom.nacos.discovery.group:LOCAL_GROUP}
       # 配置中心
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}

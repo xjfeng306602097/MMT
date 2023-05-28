@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.AppUvLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.metadata.AppUvLog">
+            <result property="isNew" column="isNew" jdbcType="OTHER"/>
+            <result property="memberNo" column="memberNo" jdbcType="OTHER"/>
+            <result property="memberType" column="memberType" jdbcType="OTHER"/>
+            <result property="ip" column="ip" jdbcType="OTHER"/>
+            <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
+            <result property="event" column="event" jdbcType="OTHER"/>
+            <result property="uuid" column="uuid" jdbcType="OTHER"/>
+            <result property="userAgent" column="userAgent" jdbcType="OTHER"/>
+            <result property="mobile" column="mobile" jdbcType="OTHER"/>
+            <result property="browser" column="browser" jdbcType="OTHER"/>
+            <result property="browserVersion" column="browserVersion" jdbcType="OTHER"/>
+            <result property="platform" column="platform" jdbcType="OTHER"/>
+            <result property="os" column="os" jdbcType="OTHER"/>
+            <result property="osVersion" column="osVersion" jdbcType="OTHER"/>
+            <result property="engine" column="engine" jdbcType="OTHER"/>
+            <result property="engineVersion" column="engineVersion" jdbcType="OTHER"/>
+            <result property="referer" column="referer" jdbcType="OTHER"/>
+            <result property="totalCount" column="totalCount" jdbcType="OTHER"/>
+            <result property="eventDate" column="eventDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        isNew,memberNo,memberType,ip,
+        ts,event,uuid,
+        userAgent,mobile,browser,
+        browserVersion,platform,os,
+        osVersion,engine,engineVersion,
+        referer,totalCount,eventDate
+    </sql>
+</mapper>

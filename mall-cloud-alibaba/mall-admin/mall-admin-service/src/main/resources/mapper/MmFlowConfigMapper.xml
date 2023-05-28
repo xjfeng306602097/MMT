@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmFlowConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmFlowConfig">
+        <id property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="relatePermission" column="RELATE_PERMISSION" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        CODE
+        ,ID,NAME,
+        STATUS,DELETED,RELATE_PERMISSION,
+        CREATOR,LAST_UPDATER,GMT_CREATE,
+        GMT_MODIFIED
+    </sql>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.SysDictItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.SysDictItem">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="value" column="VALUE" jdbcType="VARCHAR"/>
+        <result property="dictCode" column="DICT_CODE" jdbcType="VARCHAR"/>
+        <result property="sort" column="SORT" jdbcType="DECIMAL"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="deleted" column="DETELED" jdbcType="DECIMAL"/>
+        <result property="defaulted" column="DEFAULTED" jdbcType="DECIMAL"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="parentId" column="PARENT_ID" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,NAME,VALUE,
+        DICT_CODE,SORT,STATUS,
+        DEFAULTED,REMARK,GMT_CREATE,
+        GMT_MODIFIED
+    </sql>
+
+    <select id="list" resultMap="BaseResultMap">
+        select a.* from SYS_DICT_ITEM a
+        left join SYS_DICT b on a.DICT_CODE=b.CODE
+        where 1=1
+        <if test='dictItem.name != null and dictItem.name.trim() neq ""'>
+            and a.NAME like CONCAT(CONCAT('%',#{dictItem.name}), '%')
+        </if>
+        <if test='dictItem.dictCode !=null and dictItem.dictCode.trim() neq ""'>
+            and a.DICT_CODE = #{dictItem.dictCode}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmFlowConfigItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmFlowConfigItem">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="roleCode" column="ROLE_CODE" jdbcType="VARCHAR"/>
+        <result property="roleId" column="ROLE_ID" jdbcType="DECIMAL"/>
+        <result property="relateConfig" column="RELATE_CONFIG" jdbcType="DECIMAL"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="step" column="STEP" jdbcType="DECIMAL"/>
+        <result property="title" column="TITLE" jdbcType="VARCHAR"/>
+        <result property="roleName" column="ROLE_NAME" jdbcType="VARCHAR"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,ROLE_CODE,ROLE_ID,
+        RELATE_CONFIG,REMARK,CREATOR,
+        LAST_UPDATER,GMT_CREATE,GMT_MODIFIED,
+        STEP,TITLE,ROLE_NAME,
+        DELETED
+    </sql>
+</mapper>

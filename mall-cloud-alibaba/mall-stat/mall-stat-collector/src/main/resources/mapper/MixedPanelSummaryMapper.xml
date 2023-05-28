@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.MixedPanelSummaryMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.MixedPanelSummary">
+            <result property="date" column="date" jdbcType="DATE"/>
+            <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+            <result property="pageNo" column="page_no" jdbcType="OTHER"/>
+            <result property="fr" column="fr" jdbcType="OTHER"/>
+            <result property="nfr" column="nfr" jdbcType="OTHER"/>
+            <result property="ho" column="ho" jdbcType="OTHER"/>
+            <result property="sv" column="sv" jdbcType="OTHER"/>
+        <result property="dt" column="dt" jdbcType="OTHER"/>
+        <result property="ot" column="ot" jdbcType="OTHER"/>
+        <result property="channel" column="channel" jdbcType="OTHER"/>
+        <result property="mobile" column="mobile" jdbcType="OTHER"/>
+        <result property="platform" column="platform" jdbcType="OTHER"/>
+        <result property="memberToMm" column="member_to_mm" jdbcType="OTHER"/>
+        <result property="sessionToMm" column="session_to_mm" jdbcType="OTHER"/>
+        <result property="toPage" column="to_page" jdbcType="OTHER"/>
+        <result property="toItem" column="to_item" jdbcType="OTHER"/>
+        <result property="stayTime" column="stay_time" jdbcType="OTHER"/>
+        <result property="memberToMmPage" column="member_to_mm_page" jdbcType="OTHER"/>
+        <result property="sessionToMmPage" column="session_to_mm_page" jdbcType="OTHER"/>
+        <result property="bounceRateCounts" column="bounce_rate_counts" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        date,mm_code,page_no,member_to_mm_page,session_to_mm_page
+        fr,nfr,ho,
+        sv,dt,ot,
+        channel,mobile,platform,member_to_mm,
+        session_to_mm,to_page,to_item,
+        stay_time,bounce_rate_counts
+    </sql>
+</mapper>

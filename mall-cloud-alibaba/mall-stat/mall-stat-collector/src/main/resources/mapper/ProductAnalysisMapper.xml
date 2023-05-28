@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.ProductAnalysisMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.ProductAnalysis">
+        <result property="nameEn" column="name_en" jdbcType="OTHER"/>
+        <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+        <result property="nameThai" column="name_thai" jdbcType="OTHER"/>
+        <result property="goodsCode" column="goods_code" jdbcType="OTHER"/>
+        <result property="clicks" column="clicks" jdbcType="OTHER"/>
+        <result property="visitors" column="visitors" jdbcType="OTHER"/>
+        <result property="channel" column="channel" jdbcType="OTHER"/>
+        <result property="pageNo" column="page_no" jdbcType="OTHER"/>
+        <result property="date" column="date" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        name_en
+        ,mm_code
+        ,name_thai,goods_code,
+        clicks,visitors,date,page_no,channel
+    </sql>
+    <select id="page" resultType="com.makro.mall.stat.pojo.snapshot.ProductAnalysis">
+        select goods_code goodsCode
+        ,sum(clicks) as clicks
+        ,sum(visitors) as visitors
+        from product_analysis
+        where date ${sql}
+        <if test="mmCode != null and mmCode !=''">
+            and mm_code = #{mmCode}
+        </if>
+        <if test="goodsCode != null and goodsCode !=''">
+            and goods_code = #{goodsCode}
+        </if>
+        <if test="nameEn != null and nameEn !=''">
+            and name_en = #{nameEn}
+        </if>
+        <if test="nameThai != null and nameThai !=''">
+            and name_thai = #{nameThai}
+        </if>
+        group by goods_code
+    </select>
+    <select id="listForName" resultType="com.makro.mall.stat.pojo.snapshot.ProductAnalysis">
+        select name_en
+        ,mm_code
+        ,name_thai
+        ,goods_code
+        ,date
+        from product_analysis
+        where date ${sql}
+        <if test="goodsCodes != null and goodsCodes.size() > 0">
+            and goods_code in
+            (
+            <foreach collection="goodsCodes" item="x" separator=",">
+                #{x}
+            </foreach>
+            )
+        </if>
+        <if test="mmCode != null  and mmCode !=''">
+            and mm_code = #{mmCode}
+        </if>
+    </select>
+    <select id="compareProductList" resultType="com.makro.mall.stat.pojo.snapshot.ProductAnalysis">
+        select sum(clicks) as clicks,
+               sum(visitors) as visitors,
+               date
+        from product_analysis
+        where date ${sql}
+          and mm_code = #{mmCode}
+          and goods_code = #{goodsCode}
+        group by date
+    </select>
+    <select id="hasTimeData" resultType="java.lang.Boolean">
+        SELECT 1
+        from product_analysis
+        where date = ${s}
+        limit 1
+    </select>
+    <select id="list" resultType="com.makro.mall.stat.pojo.snapshot.ProductAnalysis">
+        select goods_code goodsCode
+        ,sum(clicks) as clicks
+        ,sum(visitors) as visitors
+        from product_analysis
+        where date ${sql}
+        <if test="mmCode != null and mmCode !=''">
+            and mm_code = #{mmCode}
+        </if>
+        <if test="goodsCodes != null and goodsCodes.size() > 0">
+            and goods_code in
+            (
+            <foreach collection="goodsCodes" item="x" separator=",">
+                #{x}
+            </foreach>
+            )
+        </if>
+        <if test="nameEn != null and nameEn !=''">
+            and name_en = #{nameEn}
+        </if>
+        <if test="nameThai != null and nameThai !=''">
+            and name_thai = #{nameThai}
+        </if>
+        group by goods_code
+    </select>
+</mapper>

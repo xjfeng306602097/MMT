@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmPublishJobFileMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmPublishJobFile">
+            <id property="id" column="ID" jdbcType="VARCHAR"/>
+            <result property="mmPublishJobId" column="MM_PUBLISH_JOB_ID" jdbcType="VARCHAR"/>
+            <result property="fileUrl" column="FILE_URL" jdbcType="VARCHAR"/>
+            <result property="fileType" column="FILE_TYPE" jdbcType="VARCHAR"/>
+            <result property="channel" column="CHANNEL" jdbcType="VARCHAR"/>
+            <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+            <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,MM_PUBLISH_JOB_ID,FILE_URL,
+        FILE_TYPE,CHANNEL,GMT_CREATE,
+        CREATOR
+    </sql>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.PagePvMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.PagePv">
+        <result property="mmcode" column="mmcode" jdbcType="OTHER"/>
+        <result property="count" column="count" jdbcType="OTHER"/>
+        <result property="total" column="total" jdbcType="OTHER"/>
+        <result property="date" column="date" jdbcType="DATE"/>
+        <result property="daycount" column="daycount" jdbcType="OTHER"/>
+        <result property="daytotal" column="daytotal" jdbcType="OTHER"/>
+        <result property="daydate" column="daydate" jdbcType="DATE"/>
+        <result property="weekcount" column="weekcount" jdbcType="OTHER"/>
+        <result property="weektotal" column="weektotal" jdbcType="OTHER"/>
+        <result property="weekdate" column="weekdate" jdbcType="DATE"/>
+        <result property="monthcount" column="monthcount" jdbcType="OTHER"/>
+        <result property="monthtotal" column="monthtotal" jdbcType="OTHER"/>
+        <result property="monthdate" column="monthdate" jdbcType="DATE"/>
+        <result property="yearcount" column="yearcount" jdbcType="OTHER"/>
+        <result property="yeartotal" column="yeartotal" jdbcType="OTHER"/>
+        <result property="yeardate" column="yeardate" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mmcode
+        ,count,total,date,
+        daycount,daytotal,daydate,
+        weekcount,weektotal,weekdate,
+        monthcount,monthtotal,monthdate,
+        yearcount,yeartotal,yeardate
+    </sql>
+</mapper>

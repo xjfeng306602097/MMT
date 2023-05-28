@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.SysRolePermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.SysRolePermission">
+        <result property="roleId" column="ROLE_ID" jdbcType="DECIMAL"/>
+        <result property="permissionId" column="PERMISSION_ID" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ROLE_ID
+        ,PERMISSION_ID
+    </sql>
+</mapper>

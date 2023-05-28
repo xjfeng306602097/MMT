@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.VisitsCalCountMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.VisitsCalCount">
+        <result property="mmCode" column="mm_code" jdbcType="VARCHAR"/>
+        <result property="calHour" column="cal_hour" jdbcType="VARCHAR"/>
+        <result property="num" column="num" jdbcType="DECIMAL"/>
+        <result property="calDate" column="cal_date" jdbcType="DATE"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mm_code
+        ,cal_hour,num,
+        cal_date,create_time
+    </sql>
+    <select id="hasTargetHourData" resultType="java.lang.Boolean">
+        SELECT EXISTS(SELECT 1 FROM visits_cal_count WHERE cal_hour = #{hour} and cal_date = today() limit 1)
+    </select>
+    <select id="listByCodeAndTime" resultType="com.makro.mall.stat.pojo.snapshot.VisitsCalCount">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM visits_cal_count WHERE cal_date ${sql}
+        <if test="mmCode!=null and mmCode!=''">
+            and mm_code=#{mmCode}
+        </if>
+    </select>
+
+</mapper>

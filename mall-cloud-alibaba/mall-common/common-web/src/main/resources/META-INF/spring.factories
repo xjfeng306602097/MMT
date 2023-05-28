@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.makro.mall.common.web.config.WebMvcConfig,\
+  com.makro.mall.common.web.config.FeignConfig,\
+  com.makro.mall.common.web.config.BizLogConfig,\
+  com.makro.mall.common.web.exception.GlobalExceptionHandler

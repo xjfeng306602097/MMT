@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmMemberTypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmMemberType">
+            <id property="id" column="ID" jdbcType="VARCHAR"/>
+            <result property="nameTh" column="NAME_TH" jdbcType="VARCHAR"/>
+            <result property="nameEn" column="NAME_EN" jdbcType="VARCHAR"/>
+            <result property="active" column="ACTIVE" jdbcType="DECIMAL"/>
+            <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+            <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+            <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+            <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,NAME_TH,NAME_EN,DELETED,
+        ACTIVE,CREATOR,LAST_UPDATER,
+        GMT_CREATE,GMT_MODIFIED
+    </sql>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmCustomerSegmentLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmCustomerSegmentLog">
+        <result property="customerId" column="CUSTOMER_ID" jdbcType="DECIMAL"/>
+        <result property="currentLog" column="CURRENT_LOG" jdbcType="VARCHAR"/>
+        <result property="changeLog" column="CHANGE_LOG" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        CUSTOMER_ID
+        ,CURRENT_LOG,CHANGE_LOG,
+        CREATE_TIME
+    </sql>
+</mapper>

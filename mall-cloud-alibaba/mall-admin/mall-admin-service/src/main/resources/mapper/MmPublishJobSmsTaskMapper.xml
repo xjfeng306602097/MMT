@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmPublishJobSmsTaskMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmPublishJobSmsTask">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="mmPublishJobId" column="MM_PUBLISH_JOB_ID" jdbcType="DECIMAL"/>
+        <result property="workTime" column="WORK_TIME" jdbcType="TIMESTAMP"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="msg" column="MSG" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="blacklist" column="BLACKLIST" jdbcType="VARCHAR"/>
+        <result property="whitelist" column="WHITELIST" jdbcType="VARCHAR"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="pageNo" column="PAGE_NO" jdbcType="VARCHAR"/>
+        <result property="publishUrl" column="PUBLISH_URL" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,MM_PUBLISH_JOB_ID,WORK_TIME,
+        STATUS,CREATOR,MSG,
+        GMT_CREATE,GMT_MODIFIED,MM_CUSTOMER_ID,BLACKLIST,WHITELIST,MM_CODE,PAGE_NO,PUBLISH_URL
+    </sql>
+    <select id="page" resultType="com.makro.mall.admin.pojo.vo.MmPublishJobSmsTaskRepVO">
+        SELECT a.*
+        ,c.SEGMENT as mmSegment
+        ,c.STORE_CODE as mmStore
+        FROM MM_PUBLISH_JOB_SMS_TASK a
+        JOIN MM_PUBLISH_JOB b ON b.ID = a.MM_PUBLISH_JOB_ID
+        JOIN MM_ACTIVITY c ON b.MM_CODE = c.MM_CODE
+        <if test="req.startWorkTime!=null and  req.endWorkTime!=null">
+            and a.WORK_TIME between #{req.startWorkTime} and #{req.endWorkTime}
+        </if>
+        <if test="req.status!=null">
+            and a.STATUS = #{req.status}
+        </if>
+        <if test="req.subject!=null and req.subject!=''">
+            and a.SUBJECT like '%' || #{req.subject} || '%'
+        </if>
+        <if test="req.storeCode!=null and req.storeCode!=''">
+            and c.STORE_CODE = #{req.storeCode}
+        </if>
+        <if test="req.mmCode!=null and req.mmCode!=''">
+            and c.MM_CODE = #{req.mmCode}
+        </if>
+        <if test="req.jobId!=null and req.jobId!=''">
+            and a.ID = #{req.jobId}
+        </if>
+        <if test="sortSql!=null">
+            ${sortSql}
+        </if>
+
+    </select>
+</mapper>

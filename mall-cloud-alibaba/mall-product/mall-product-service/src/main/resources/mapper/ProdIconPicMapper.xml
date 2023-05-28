@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ProdIconPicMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ProdIconPic">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="iconid" column="ICONID" jdbcType="VARCHAR"/>
+        <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+        <result property="defaulted" column="DEFAULTED" jdbcType="DECIMAL"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,ICONID,FILE_PATH,
+        CREATOR,LAST_UPDATER,DEFAULTED,
+        GMT_CREATE,GMT_MODIFIED,DELETED
+    </sql>
+</mapper>

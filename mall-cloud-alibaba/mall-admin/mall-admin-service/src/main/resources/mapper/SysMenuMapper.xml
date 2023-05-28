@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.SysMenu">
+        <result property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="parentId" column="PARENT_ID" jdbcType="DECIMAL"/>
+        <result property="path" column="PATH" jdbcType="VARCHAR"/>
+        <result property="component" column="COMPONENT" jdbcType="VARCHAR"/>
+        <result property="icon" column="ICON" jdbcType="VARCHAR"/>
+        <result property="sort" column="SORT" jdbcType="DECIMAL"/>
+        <result property="visible" column="VISIBLE" jdbcType="DECIMAL"/>
+        <result property="redirect" column="REDIRECT" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <collection property="roles" ofType="string" javaType="list">
+            <result column="code"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,NAME,PARENT_ID,
+        PATH,COMPONENT,ICON,
+        SORT,VISIBLE,REDIRECT,
+        GMT_CREATE,GMT_MODIFIED
+    </sql>
+
+    <select id="listRoute" resultMap="BaseResultMap">
+        select t1.id,
+               t1.name,
+               t1.parent_id,
+               t1.path,
+               t1.component,
+               t1.icon,
+               t1.sort,
+               t1.visible,
+               t1.redirect,
+               t3.code
+        from sys_menu t1
+                 left join sys_role_menu t2 on t1.id = t2.menu_id
+                 left join sys_role t3 on t2.role_id = t3.id
+        where t1.visible = ${@com.makro.mall.common.constants.GlobalConstants@STATUS_YES}
+        order by t1.sort asc
+    </select>
+</mapper>

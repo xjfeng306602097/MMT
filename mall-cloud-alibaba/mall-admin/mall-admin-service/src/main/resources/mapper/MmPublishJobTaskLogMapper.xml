@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmPublishJobTaskLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmPublishJobTaskLog">
+            <id property="id" column="ID" jdbcType="DECIMAL"/>
+            <result property="customerId" column="CUSTOMER_ID" jdbcType="DECIMAL"/>
+            <result property="taskId" column="TASK_ID" jdbcType="VARCHAR"/>
+            <result property="customerName" column="CUSTOMER_NAME" jdbcType="VARCHAR"/>
+            <result property="customerCode" column="CUSTOMER_CODE" jdbcType="VARCHAR"/>
+            <result property="sendTo" column="SEND_TO" jdbcType="VARCHAR"/>
+            <result property="status" column="STATUS" jdbcType="VARCHAR"/>
+            <result property="sendTime" column="SEND_TIME" jdbcType="TIMESTAMP"/>
+            <result property="channel" column="CHANNEL" jdbcType="VARCHAR"/>
+            <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+            <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,CUSTOMER_ID,CUSTOMER_NAME,
+        CUSTOMER_CODE,SEND_TO,STATUS,
+        SEND_TIME,CHANNEL,CREATOR,
+        GMT_CREATE,GMT_MODIFIED
+    </sql>
+</mapper>

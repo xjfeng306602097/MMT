@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ProdListMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ProdList">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="namethai" column="NAMETHAI" jdbcType="VARCHAR"/>
+        <result property="normalprice" column="NORMALPRICE" jdbcType="DECIMAL"/>
+        <result property="promoprice" column="PROMOPRICE" jdbcType="DECIMAL"/>
+        <result property="urlparam" column="URLPARAM" jdbcType="VARCHAR"/>
+        <result property="page" column="PAGE" jdbcType="DECIMAL"/>
+        <result property="sort" column="SORT" jdbcType="DECIMAL"/>
+        <result property="promotype" column="PROMOTYPE" jdbcType="DECIMAL"/>
+        <result property="pack" column="PACK" jdbcType="VARCHAR"/>
+        <result property="model" column="MODEL" jdbcType="VARCHAR"/>
+        <result property="qty2" column="QTY2" jdbcType="DECIMAL"/>
+        <result property="promoprice2" column="PROMOPRICE2" jdbcType="DECIMAL"/>
+        <result property="qty3" column="QTY3" jdbcType="DECIMAL"/>
+        <result property="promoprice3" column="PROMOPRICE3" jdbcType="DECIMAL"/>
+        <result property="qty4" column="QTY4" jdbcType="DECIMAL"/>
+        <result property="promoprice4" column="PROMOPRICE4" jdbcType="DECIMAL"/>
+        <result property="promotedesc" column="PROMOTEDESC" jdbcType="VARCHAR"/>
+        <result property="linkitemno" column="LINKITEMNO" jdbcType="VARCHAR"/>
+        <result property="remark1" column="REMARK1" jdbcType="VARCHAR"/>
+        <result property="remark2" column="REMARK2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="REMARK3" jdbcType="VARCHAR"/>
+        <result property="icon1" column="ICON1" jdbcType="VARCHAR"/>
+        <result property="icon2" column="ICON2" jdbcType="VARCHAR"/>
+        <result property="icon3" column="ICON3" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="categoryid" column="CATEGORYID" jdbcType="DECIMAL"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="infoid" column="INFOID" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="isvalid" column="ISVALID" jdbcType="DECIMAL"/>
+        <result property="picid" column="PICID" jdbcType="VARCHAR"/>
+        <result property="qty2unit" column="QTY2UNIT" jdbcType="VARCHAR"/>
+        <result property="qty3unit" column="QTY3UNIT" jdbcType="VARCHAR"/>
+        <result property="qty4unit" column="QTY4UNIT" jdbcType="VARCHAR"/>
+        <result property="promoprice2description" column="PROMOPRICE2DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="promoprice3description" column="PROMOPRICE3DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="promoprice4description" column="PROMOPRICE4DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="parentCode" column="PARENT_CODE" jdbcType="VARCHAR"/>
+        <result property="channelType" column="CHANNEL_TYPE" jdbcType="VARCHAR"/>
+        <result property="nameen" column="NAMEEN" jdbcType="VARCHAR"/>
+        <result property="qty1" column="QTY1" jdbcType="DECIMAL"/>
+        <result property="qty1unit" column="QTY1UNIT" jdbcType="VARCHAR"/>
+        <result property="promoprice1" column="PROMOPRICE1" jdbcType="DECIMAL"/>
+        <result property="iconRemark" column="ICON_REMARK" jdbcType="VARCHAR"/>
+        <result property="parentId" column="PARENT_ID" jdbcType="VARCHAR"/>
+        <result property="productId" column="PRODUCT_ID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,NAMETHAI,NORMALPRICE,
+        PROMOPRICE,URLPARAM,PAGE,
+        SORT,PROMOTYPE,PACK,
+        MODEL,QTY2,PROMOPRICE2,
+        QTY3,PROMOPRICE3,QTY4,
+        PROMOPRICE4,PROMOTEDESC,LINKITEMNO,
+        REMARK1,REMARK2,REMARK3,
+        ICON1,ICON2,ICON3,
+        CREATOR,CATEGORYID,MM_CODE,
+        INFOID,GMT_CREATE,GMT_MODIFIED,
+        ISVALID,PICID,QTY2UNIT,
+        QTY3UNIT,QTY4UNIT,PROMOPRICE2DESCRIPTION,
+        PROMOPRICE3DESCRIPTION,PROMOPRICE4DESCRIPTION,PARENT_CODE,
+        CHANNEL_TYPE,NAMEEN,QTY1,
+        QTY1UNIT,PROMOPRICE1,ICON_REMARK,
+        PARENT_ID,PRODUCT_ID
+    </sql>
+    <update id="updateAll"  parameterType="com.makro.mall.product.pojo.entity.ProdList">
+            update PROD_LIST
+            set
+                NAMETHAI =  #{data.namethai,jdbcType=VARCHAR},
+                NORMALPRICE =  #{data.normalprice,jdbcType=DECIMAL},
+                PROMOPRICE =  #{data.promoprice,jdbcType=DECIMAL},
+                URLPARAM =  #{data.urlparam,jdbcType=VARCHAR},
+                PAGE =  #{data.page,jdbcType=DECIMAL},
+                SORT =  #{data.sort,jdbcType=DECIMAL},
+                PROMOTYPE =  #{data.promotype,jdbcType=DECIMAL},
+                PACK =  #{data.pack,jdbcType=VARCHAR},
+                MODEL =  #{data.model,jdbcType=VARCHAR},
+                QTY2 =  #{data.qty2,jdbcType=DECIMAL},
+                PROMOPRICE2 =  #{data.promoprice2,jdbcType=DECIMAL},
+                QTY3 =  #{data.qty3,jdbcType=DECIMAL},
+                PROMOPRICE3 =  #{data.promoprice3,jdbcType=DECIMAL},
+                QTY4 =  #{data.qty4,jdbcType=DECIMAL},
+                PROMOPRICE4 =  #{data.promoprice4,jdbcType=DECIMAL},
+                PROMOTEDESC =  #{data.promotedesc,jdbcType=VARCHAR},
+                LINKITEMNO =  #{data.linkitemno,jdbcType=VARCHAR},
+                REMARK1 =  #{data.remark1,jdbcType=VARCHAR},
+                REMARK2 =  #{data.remark2,jdbcType=VARCHAR},
+                REMARK3 =  #{data.remark3,jdbcType=VARCHAR},
+                ICON1 =  #{data.icon1,jdbcType=VARCHAR},
+                ICON2 =  #{data.icon2,jdbcType=VARCHAR},
+                ICON3 =  #{data.icon3,jdbcType=VARCHAR},
+                CREATOR =  #{data.creator,jdbcType=VARCHAR},
+                CATEGORYID =  #{data.categoryid,jdbcType=DECIMAL},
+                MM_CODE =  #{data.mmCode,jdbcType=VARCHAR},
+                INFOID =  #{data.infoid,jdbcType=VARCHAR},
+                GMT_CREATE =  #{data.gmtCreate,jdbcType=TIMESTAMP},
+                GMT_MODIFIED =  #{data.gmtModified,jdbcType=TIMESTAMP},
+                ISVALID =  #{data.isvalid,jdbcType=DECIMAL},
+                PICID =  #{data.picid,jdbcType=VARCHAR},
+                QTY2UNIT =  #{data.qty2unit,jdbcType=VARCHAR},
+                QTY3UNIT =  #{data.qty3unit,jdbcType=VARCHAR},
+                QTY4UNIT =  #{data.qty4unit,jdbcType=VARCHAR},
+                PROMOPRICE2DESCRIPTION =  #{data.promoprice2description,jdbcType=VARCHAR},
+                PROMOPRICE3DESCRIPTION =  #{data.promoprice3description,jdbcType=VARCHAR},
+                PROMOPRICE4DESCRIPTION =  #{data.promoprice4description,jdbcType=VARCHAR},
+                PARENT_CODE =  #{data.parentCode,jdbcType=VARCHAR},
+                CHANNEL_TYPE =  #{data.channelType,jdbcType=VARCHAR},
+                NAMEEN =  #{data.nameen,jdbcType=VARCHAR},
+                QTY1 =  #{data.qty1,jdbcType=DECIMAL},
+                QTY1UNIT =  #{data.qty1unit,jdbcType=VARCHAR},
+                PROMOPRICE1 =  #{data.promoprice1,jdbcType=DECIMAL},
+                ICON_REMARK =  #{data.iconRemark,jdbcType=VARCHAR},
+                PARENT_ID =  #{data.parentId,jdbcType=VARCHAR},
+                PRODUCT_ID =  #{data.productId,jdbcType=DECIMAL}
+                where ID =  #{data.id,jdbcType=VARCHAR}
+        </update>
+    <select id="list" resultType="com.makro.mall.product.pojo.entity.ProdList">
+        select
+        <include refid="Base_Column_List"/>
+        from Prod_list
+        where 1=1
+        <if test='data.urlparam!=null and data.urlparam.trim() neq ""'>
+            and URLPARAM like concat(concat('%',#{data.urlparam}),'%')
+        </if>
+        <if test='data.namethai!=null and data.namethai.trim() neq ""'>
+            and NAMETHAI like concat(concat('%',#{data.namethai}),'%')
+        </if>
+        <if test='data.mmCode!=null and data.mmCode.trim() neq ""'>
+            and MM_CODE = #{data.mmCode}
+        </if>
+        <if test='data.isvalid!=null'>
+            and isvalid = #{data.isvalid}
+        </if>
+        <if test='data.page!=null'>
+            and page = #{data.page}
+        </if>
+        <if test='data.sort!=null'>
+            and sort = #{data.sort}
+        </if>
+    </select>
+    <select id="linkItemList" resultType="com.makro.mall.product.pojo.entity.ProdList">
+        select
+        <include refid="Base_Column_List"/>
+        from Prod_list
+        <where>
+            <if test='itemCode!=null and itemCode.trim() neq ""'>
+                and PARENT_CODE = #{itemCode}
+            </if>
+            <if test='mmCode!=null and mmCode.trim() neq ""'>
+                and MM_CODE = #{mmCode}
+            </if>
+            <if test='isvalid!=null'>
+                and isvalid = #{isvalid}
+            </if>
+        </where>
+    </select>
+    <select id="getPages" resultType="java.lang.String">
+        select distinct page
+        from Prod_list
+        where MM_CODE = #{mmCode}
+          and isvalid = 1
+          and page is not null
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ProdIconMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ProdIcon">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="remarks" column="REMARKS" jdbcType="VARCHAR"/>
+        <result property="picid" column="PICID" jdbcType="VARCHAR"/>
+        <result property="isvalid" column="ISVALID" jdbcType="INTEGER"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,NAME,REMARKS,
+        PICID,ISVALID,CREATOR,
+        GMT_MODIFIED,GMT_CREATE
+    </sql>
+    <select id="getIconNames" resultType="java.lang.String">
+        select distinct name
+        from Prod_icon
+        order by name
+    </select>
+</mapper>

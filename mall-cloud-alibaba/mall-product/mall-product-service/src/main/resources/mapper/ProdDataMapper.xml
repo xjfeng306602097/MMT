@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ProdDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ProdData">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="itemcode" column="ITEMCODE" jdbcType="VARCHAR"/>
+        <result property="namethai" column="NAMETHAI" jdbcType="VARCHAR"/>
+        <result property="nameeng" column="NAMEENG" jdbcType="VARCHAR"/>
+        <result property="normalprice" column="NORMALPRICE" jdbcType="DECIMAL"/>
+        <result property="promoprice" column="PROMOPRICE" jdbcType="DECIMAL"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="urlparma" column="URLPARMA" jdbcType="VARCHAR"/>
+        <result property="page" column="PAGE" jdbcType="DECIMAL"/>
+        <result property="sort" column="SORT" jdbcType="DECIMAL"/>
+        <result property="promotype" column="PROMOTYPE" jdbcType="DECIMAL"/>
+        <result property="saleunit" column="SALEUNIT" jdbcType="VARCHAR"/>
+        <result property="pack" column="PACK" jdbcType="VARCHAR"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="brand" column="BRAND" jdbcType="VARCHAR"/>
+        <result property="model" column="MODEL" jdbcType="VARCHAR"/>
+        <result property="qty2" column="QTY2" jdbcType="DECIMAL"/>
+        <result property="qty2unit" column="QTY2UNIT" jdbcType="VARCHAR"/>
+        <result property="promoprice2" column="PROMOPRICE2" jdbcType="DECIMAL"/>
+        <result property="promoprice2description" column="PROMOPRICE2DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="qty3" column="QTY3" jdbcType="DECIMAL"/>
+        <result property="qty3unit" column="QTY3UNIT" jdbcType="VARCHAR"/>
+        <result property="promoprice3" column="PROMOPRICE3" jdbcType="DECIMAL"/>
+        <result property="promoprice3description" column="PROMOPRICE3DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="qty4" column="QTY4" jdbcType="DECIMAL"/>
+        <result property="qty4unit" column="QTY4UNIT" jdbcType="VARCHAR"/>
+        <result property="promoprice4" column="PROMOPRICE4" jdbcType="DECIMAL"/>
+        <result property="promoprice4description" column="PROMOPRICE4DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="qty5" column="QTY5" jdbcType="DECIMAL"/>
+        <result property="qty5unit" column="QTY5UNIT" jdbcType="VARCHAR"/>
+        <result property="promoprice5" column="PROMOPRICE5" jdbcType="DECIMAL"/>
+        <result property="promoprice5description" column="PROMOPRICE5DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="promotedesc" column="PROMOTEDESC" jdbcType="VARCHAR"/>
+        <result property="discountamount" column="DISCOUNTAMOUNT" jdbcType="DECIMAL"/>
+        <result property="discountpercent" column="DISCOUNTPERCENT" jdbcType="DECIMAL"/>
+        <result property="giftitemno" column="GIFTITEMNO" jdbcType="VARCHAR"/>
+        <result property="remark1" column="REMARK1" jdbcType="VARCHAR"/>
+        <result property="remark2" column="REMARK2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="REMARK3" jdbcType="VARCHAR"/>
+        <result property="icon1" column="ICON1" jdbcType="VARCHAR"/>
+        <result property="icon2" column="ICON2" jdbcType="VARCHAR"/>
+        <result property="icon3" column="ICON3" jdbcType="VARCHAR"/>
+        <result property="unittitle1" column="UNITTITLE1" jdbcType="VARCHAR"/>
+        <result property="unitvalue1" column="UNITVALUE1" jdbcType="VARCHAR"/>
+        <result property="unittitle2" column="UNITTITLE2" jdbcType="VARCHAR"/>
+        <result property="unitvalue2" column="UNITVALUE2" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="categoryid" column="CATEGORYID" jdbcType="DECIMAL"/>
+        <result property="isvalid" column="ISVALID" jdbcType="INTEGER"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="picid" column="PICID" jdbcType="VARCHAR"/>
+        <result property="infoid" column="INFOID" jdbcType="VARCHAR"/>
+        <result property="avgprice1" column="AVGPRICE1" jdbcType="DECIMAL"/>
+        <result property="avgprice2" column="AVGPRICE2" jdbcType="DECIMAL"/>
+        <result property="avgprice3" column="AVGPRICE3" jdbcType="DECIMAL"/>
+        <result property="taste" column="TASTE" jdbcType="VARCHAR"/>
+        <result property="mutiitemcode" column="MUTIITEMCODE" jdbcType="VARCHAR"/>
+        <result property="structuralproportion" column="STRUCTURALPROPORTION" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,ITEMCODE,NAMETHAI,
+        NAMEENG,NORMALPRICE,PROMOPRICE,
+        REMARK,URLPARMA,PAGE,
+        SORT,PROMOTYPE,SALEUNIT,
+        PACK,DESCRIPTION,BRAND,
+        MODEL,QTY2,QTY2UNIT,PROMOPRICE2,PROMOPRICE2DESCRIPTION,
+        QTY3,QTY3UNIT,PROMOPRICE3,PROMOPRICE3DESCRIPTION,QTY4,QTY4UNIT,
+        PROMOPRICE4,PROMOPRICE4DESCRIPTION,QTY5,QTY5UNIT,PROMOPRICE5,PROMOPRICE5DESCRIPTION,
+        PROMOTEDESC,DISCOUNTAMOUNT,DISCOUNTPERCENT,STRUCTURALPROPORTION,
+        GIFTITEMNO,REMARK1,REMARK2,
+        REMARK3,ICON1,ICON2,
+        ICON3,UNITTITLE1,UNITVALUE1,PICID,AVGPRICE1,AVGPRICE2,AVGPRICE3,TASTE,MUTIITEMCODE,
+        UNITTITLE2,UNITVALUE2,CREATOR,ISVALID,
+        CATEGORYID,MM_CODE,INFOID,GMT_CREATE,GMT_MODIFIED
+    </sql>
+    <select id="list" resultType="com.makro.mall.product.pojo.entity.ProdData">
+        select
+        <include refid="Base_Column_List"/>
+        from Prod_data
+        where 1=1
+        <if test='data.itemcode!=null and data.itemcode.trim() neq ""'>
+            and ITEMCODE like concat(concat('%',#{data.itemcode}),'%')
+        </if>
+        <if test='data.nameeng!=null and data.nameeng.trim() neq ""'>
+            and NAMEENG like concat(concat('%',#{data.nameeng}),'%')
+        </if>
+        <if test='data.namethai!=null and data.namethai.trim() neq ""'>
+            and NAMETHAI like concat(concat('%',#{data.namethai}),'%')
+        </if>
+        <if test='data.mmCode!=null and data.mmCode.trim() neq ""'>
+            and MM_CODE = #{data.mmCode}
+        </if>
+        <if test='data.isvalid!=null'>
+            and isvalid = #{data.isvalid}
+        </if>
+        <if test='data.page!=null'>
+            and page = #{data.page}
+        </if>
+        <if test='data.sort!=null'>
+            and sort = #{data.sort}
+        </if>
+    </select>
+</mapper>

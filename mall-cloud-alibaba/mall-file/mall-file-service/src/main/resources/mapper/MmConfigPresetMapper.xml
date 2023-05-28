@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.file.mapper.MmConfigPresetMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.file.pojo.entity.MmConfigPreset">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="type" column="TYPE" jdbcType="DECIMAL"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="width" column="WIDTH" jdbcType="DECIMAL"/>
+        <result property="height" column="HEIGHT" jdbcType="DECIMAL"/>
+        <result property="dpi" column="DPI" jdbcType="DECIMAL"/>
+        <result property="unit" column="UNIT" jdbcType="DECIMAL"/>
+        <result property="marginTop" column="MARGIN_TOP" jdbcType="DECIMAL"/>
+        <result property="marginIn" column="MARGIN_IN" jdbcType="DECIMAL"/>
+        <result property="marginOut" column="MARGIN_OUT" jdbcType="DECIMAL"/>
+        <result property="marginBottom" column="MARGIN_BOTTOM" jdbcType="DECIMAL"/>
+        <result property="bleedLineTop" column="BLEED_LINE_TOP" jdbcType="DECIMAL"/>
+        <result property="bleedLineIn" column="BLEED_LINE_IN" jdbcType="DECIMAL"/>
+        <result property="bleedLineOut" column="BLEED_LINE_OUT" jdbcType="DECIMAL"/>
+        <result property="bleedLineBottom" column="BLEED_LINE_BOTTOM" jdbcType="DECIMAL"/>
+        <result property="sizeRate" column="SIZE_RATE" jdbcType="DECIMAL"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="sort" column="SORT" jdbcType="DECIMAL"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,TYPE,NAME,
+        WIDTH,HEIGHT,DPI,
+        UNIT,MARGIN_TOP,MARGIN_IN,
+        MARGIN_OUT,MARGIN_BOTTOM,BLEED_LINE_TOP,
+        BLEED_LINE_IN,BLEED_LINE_OUT,BLEED_LINE_BOTTOM,
+        REMARK,SORT,STATUS,SIZE_RATE,
+        DELETED,CREATOR,LAST_UPDATER,
+        GMT_CREATE,GMT_MODIFIED
+    </sql>
+</mapper>

@@ -1,0 +1,60 @@
+def harbor_url = '10.58.5.152:85'
+def tag = "${profile}-latest"
+def harbor_project_name = 'makro-backend'
+def harbor_auth = 'Harbor'
+
+node {
+    stage('拉取代码') {
+       checkout([$class: 'GitSCM', branches: [[name: '*/${branch}']], extensions: [], userRemoteConfigs: [[credentialsId: 'root', url: 'http://10.58.5.242:9980/makro-backend/MMT']]])
+    }
+    stage('构建公共项目工程') {
+	    sh "mvn -f mall-cloud-alibaba clean package -U -DskipTests -Dspring.profiles.active=${profile}"
+	}
+    stage('构建对应的项目,上传镜像后,对应部署服务器拉取镜像') {
+		def image_name
+	    def harbor_username
+		def harbor_password
+        if ("${project_name}" == 'mall-auth' || "${project_name}" == 'mall-gateway') {
+           dir ("${env.WORKSPACE}/mall-cloud-alibaba/${project_name}") {
+               sh "docker build -f Dockerfile -t ${project_name}:${tag} --build-arg profile=${profile} ."
+			   image_name = "${project_name}:${tag}"
+			   sh "docker tag ${image_name} ${harbor_url}/${harbor_project_name}/${image_name}"
+			   withCredentials([usernamePassword(credentialsId: "${harbor_auth}", passwordVariable: 'password', usernameVariable: 'username')]) {
+					harbor_username = "${username}"
+					harbor_password = "${password}"
+					// 登录到harbor
+					sh "docker login -u ${username} -p ${password} ${harbor_url}"
+					// 上传镜像
+					sh "docker push ${harbor_url}/${harbor_project_name}/${image_name}"
+					echo "${image_name}镜像上传成功"
+			   }
+			   sh "docker rmi -f ${image_name}"
+			   sh "docker rmi -f ${harbor_url}/${harbor_project_name}/${image_name}"
+			   echo "${image_name}镜像删除成功"
+		   }
+        } else {
+           dir ("${env.WORKSPACE}/mall-cloud-alibaba/${project_name}/${project_name}-service") {
+               sh "docker build -f Dockerfile -t ${project_name}-service:${tag} --build-arg profile=${profile} ."
+			   project_name = "${project_name}-service"
+			   image_name = "${project_name}:${tag}"
+			   sh "docker tag ${image_name} ${harbor_url}/${harbor_project_name}/${image_name}"
+			   withCredentials([usernamePassword(credentialsId: "${harbor_auth}", passwordVariable: 'password', usernameVariable: 'username')]) {
+					harbor_username = "${username}"
+					harbor_password = "${password}"
+					// 登录到harbor
+					sh "docker login -u ${username} -p ${password} ${harbor_url}"
+					// 上传镜像
+					sh "docker push ${harbor_url}/${harbor_project_name}/${image_name}"
+					echo "${image_name}镜像上传成功"
+			   }
+			   sh "docker rmi -f ${image_name}"
+			   sh "docker rmi -f ${harbor_url}/${harbor_project_name}/${image_name}"
+			   echo "${image_name}镜像删除成功"
+           }
+        }
+		sshPublisher(publishers: [sshPublisherDesc(configName: 'master_server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "/opt/jenkins_shell/deploy.sh $harbor_url $harbor_project_name $project_name $tag $profile $harbor_username $harbor_password", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+    }
+    stage('构建对应的项目') {
+       sh "mvn -f ${project_name} clean package"
+    }
+}

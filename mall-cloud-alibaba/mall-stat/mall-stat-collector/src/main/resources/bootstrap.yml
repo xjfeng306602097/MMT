@@ -1,0 +1,5 @@
+#注意这里使用bootstrap.yml而非application.yml，避免applicaton.yml后加载于nacos配置并覆盖
+#SpringBoot读取配置文件顺序：bootstrap.yml>bootstrap.yaml>bootstrap.properties>nacos的配置>application.yml>application.yaml>application.properties
+spring:
+  profiles:
+    active: local

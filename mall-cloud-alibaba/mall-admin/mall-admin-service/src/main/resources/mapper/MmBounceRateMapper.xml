@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmBounceRateMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmBounceRate">
+            <id property="id" column="ID" jdbcType="DECIMAL"/>
+            <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+            <result property="threshold" column="THRESHOLD" jdbcType="DECIMAL"/>
+            <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+            <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+            <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,MM_CODE,THRESHOLD,
+        GMT_CREATE,GMT_MODIFIED,CREATOR,
+        LAST_UPDATER
+    </sql>
+</mapper>

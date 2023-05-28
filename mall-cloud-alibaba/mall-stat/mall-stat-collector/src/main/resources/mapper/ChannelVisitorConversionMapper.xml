@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.ChannelVisitorConversionMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.ChannelVisitorConversion">
+        <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+        <result property="channel" column="channel" jdbcType="OTHER"/>
+        <result property="total" column="total" jdbcType="OTHER"/>
+        <result property="value" column="value" jdbcType="OTHER"/>
+        <result property="date" column="date" jdbcType="DATE"/>
+        <result property="uv" column="uv" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mm_code
+        ,channel,total,mv,value,date
+    </sql>
+    <insert id="saveChannelVisitorConversion">
+        INSERT INTO
+        channel_visitor_conversion
+        VALUES
+        <foreach collection="collect" item="x" separator=",">
+            (
+            #{x.mmCode},
+            #{x.channel},
+            #{x.total},
+            #{x.value},
+            #{x.uv},
+            ${s}
+            )
+        </foreach>
+    </insert>
+    <select id="list" resultType="com.makro.mall.stat.pojo.vo.BarChartVO">
+        SELECT channel    as name,
+               max(total) as total,
+               sum(uv) as value
+        FROM channel_visitor_conversion
+        WHERE date ${sql}
+          AND mm_code = #{mmCode}
+        group by name
+    </select>
+    <select id="listForChannel" resultType="com.makro.mall.stat.pojo.dto.ChannelvisitorsDTO">
+        SELECT *
+        FROM channel_visitor_conversion
+        WHERE date ${sql}
+          AND mm_code = #{mmCode}
+    </select>
+    <select id="hasTimeData" resultType="java.lang.Boolean">
+        SELECT 1
+        from channel_visitor_conversion
+        where date = ${sql}
+            limit 1
+    </select>
+    <select id="sumChannelPie" resultType="java.lang.Long">
+        SELECT sum(value)
+        FROM channel_visitor_conversion
+        WHERE channel = #{channel}
+          AND date ${sql}
+          AND mm_code = #{mmCode}
+    </select>
+</mapper>

@@ -1,0 +1,9 @@
+tenant: "public"
+namespace: "default"
+name: "jdbc-clickhouse-goods-click-sink"
+inputs: [ "persistent://public/default/mail_stat_goods_click_sink" ]
+archive: "./connectors/pulsar-io-jdbc-clickhouse-2.11.0-SNAPSHOT.nar"
+configs:
+  jdbcUrl: "jdbc:clickhouse://10.58.5.152:18123/mall_stat"
+  tableName: "goods_click_log"
+  autoCommit: true

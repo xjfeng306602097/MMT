@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ProdAuxMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ProdAux">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="type" column="TYPE" jdbcType="VARCHAR"/>
+        <result property="title" column="TITLE" jdbcType="VARCHAR"/>
+        <result property="value" column="VALUE" jdbcType="VARCHAR"/>
+        <result property="isvalid" column="ISVALID" jdbcType="DECIMAL"/>
+        <result property="picurl" column="PICURL" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,TYPE,TITLE,
+        VALUE,ISVALID,PICURL,REMARKS,
+        CREATOR,GMT_CREATE,GMT_MODIFIED
+    </sql>
+    <select id="list" resultType="com.makro.mall.product.pojo.entity.ProdAux">
+        select
+        <include refid="Base_Column_List"/>
+        from Prod_aux
+        where 1=1
+        <if test='aux.type!=null and aux.type.trim() neq ""'>
+            and type = #{aux.type}
+        </if>
+        <if test='aux.title!=null and aux.title.trim() neq ""'>
+            and title = #{aux.title}
+        </if>
+        <if test='aux.value!=null and aux.value.trim() neq ""'>
+            and value = #{aux.value}
+        </if>
+        <if test='aux.isvalid!=null'>
+            and isvalid = #{aux.isvalid}
+        </if>
+    </select>
+    <select id="getAuxType" resultType="java.lang.String">
+        select distinct type
+        from Prod_aux
+    </select>
+    <insert id="saveIfNotExist">
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            select count(*) from Prod_aux where type = #{type} and title = #{title}
+        </selectKey>
+        <choose>
+            <when test="count==0">
+                insert into Prod_aux (id,type,title,isvalid,creator)
+                values(#{id},#{type},#{title},#{isvalid},#{creator})
+            </when>
+            <otherwise>
+                update Prod_aux set isvalid = 1 where type = #{type} and title = #{title}
+            </otherwise>
+        </choose>
+    </insert>
+</mapper>

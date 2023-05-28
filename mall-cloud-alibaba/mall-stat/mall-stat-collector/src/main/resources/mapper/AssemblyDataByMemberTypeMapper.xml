@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.AssemblyDataByMemberTypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.AssemblyDataByMemberType">
+        <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+        <result property="memberType" column="member_type" jdbcType="OTHER"/>
+        <result property="total" column="total" jdbcType="OTHER"/>
+        <result property="pv" column="pv" jdbcType="OTHER"/>
+        <result property="uv" column="uv" jdbcType="OTHER"/>
+        <result property="date" column="date" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mm_code
+        ,member_type,total,pv
+        uv,date
+    </sql>
+    <insert id="saveMemberTypeClickThroughRate">
+        INSERT INTO
+        assembly_data_by_member_type
+        VALUES
+        <foreach collection="list" item="x" separator=",">
+            (
+            #{x.mmCode},
+            #{x.memberType},
+            #{x.total},
+            #{x.uv},
+            ${s},
+            #{x.pv}
+            )
+        </foreach>
+    </insert>
+    <select id="list" resultType="com.makro.mall.stat.pojo.vo.BarChartVO">
+        select member_type as name,
+        max(total) as total,
+        sum(uv) as value
+        from assembly_data_by_member_type
+        where mm_code = #{mmCode}
+        and assembly_data_by_member_type.total != 0
+        <if test="list != null and list.size()!=0">
+            and member_type in (
+            <foreach collection="list" item="x" separator=",">
+                #{x}
+            </foreach>
+            )
+
+        </if>
+        group by name order by total/value limit 5
+    </select>
+    <select id="hasTimeData" resultType="java.lang.Boolean">
+        SELECT 1
+        from assembly_data_by_member_type
+        where date = ${s}
+        limit 1
+    </select>
+    <select id="sumCustomerTypePie" resultType="java.lang.Long">
+        SELECT sum(pv)
+        FROM assembly_data_by_member_type
+        WHERE member_type like CONCAT(#{name}, '%')
+          and date ${sql}
+          AND mm_code = #{mmCode}
+    </select>
+</mapper>

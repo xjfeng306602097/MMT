@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.PageStaySummaryMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.PageStaySummary">
+        <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+        <result property="pageNo" column="page_no" jdbcType="OTHER"/>
+        <result property="calHour" column="cal_hour" jdbcType="OTHER"/>
+        <result property="stayTime" column="stay_time" jdbcType="OTHER"/>
+        <result property="visits" column="visits" jdbcType="OTHER"/>
+        <result property="visitors" column="visitors" jdbcType="OTHER"/>
+        <result property="newVisitors" column="new_visitors" jdbcType="OTHER"/>
+        <result property="memberType" column="member_type" jdbcType="OTHER"/>
+        <result property="fr" column="fr" jdbcType="OTHER"/>
+        <result property="nfr" column="nfr" jdbcType="OTHER"/>
+        <result property="ho" column="ho" jdbcType="OTHER"/>
+        <result property="sv" column="sv" jdbcType="OTHER"/>
+        <result property="dt" column="dt" jdbcType="OTHER"/>
+        <result property="ot" column="ot" jdbcType="OTHER"/>
+        <result property="storeCode" column="store_code" jdbcType="OTHER"/>
+        <result property="channel" column="channel" jdbcType="OTHER"/>
+        <result property="calDate" column="cal_date" jdbcType="DATE"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="bounceRateCounts" column="bounce_rate_counts" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mm_code,page_no,cal_hour,
+        stay_time,visits,visitors,
+        new_visitors,member_type,fr,
+        nfr,ho,sv,
+        dt,ot,store_code,channel,
+        cal_date,create_time,
+        bounce_rate_counts
+    </sql>
+    <select id="hasTargetHourData" resultType="java.lang.Boolean">
+        SELECT EXISTS(SELECT 1 FROM page_stay_summary WHERE cal_hour = #{hour} and cal_date = today() limit 1)
+    </select>
+</mapper>

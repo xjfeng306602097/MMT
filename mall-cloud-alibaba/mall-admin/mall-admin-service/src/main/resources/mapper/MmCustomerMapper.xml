@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmCustomerMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmCustomer">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="phone" column="PHONE" jdbcType="VARCHAR"/>
+        <result property="email" column="EMAIL" jdbcType="VARCHAR"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="customerCode" column="CUSTOMER_CODE" jdbcType="VARCHAR"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lineId" column="LINE_ID" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,
+        NAME,
+        PHONE,
+        EMAIL,
+        DELETED,
+        GMT_CREATE,
+        GMT_MODIFIED,
+        CUSTOMER_CODE,
+        MM_CODE,
+        CREATOR,
+        LINE_ID,
+        LAST_UPDATER
+    </sql>
+
+    <select id="list" resultType="com.makro.mall.admin.pojo.entity.MmCustomer">
+        select
+        distinct  a.ID id,
+        a.NAME name,
+        a.PHONE phone,
+        a.EMAIL email,
+        a.CUSTOMER_CODE customerCode,
+        a.MM_CODE mmCode,
+        a.CREATOR creator,
+        a.LINE_ID lineId,
+        a.LAST_UPDATER lastUpdater
+        FROM MM_CUSTOMER a
+        <if test="segments != null and segments.size > 0">
+            join MM_CUSTOMER_SEGMENT b on a.ID = b.CUSTOMER_ID
+        </if>
+        <if test="memberTypeIds != null and memberTypeIds.size > 0">
+            join MM_CUSTOMER_MEMBERTYPE c on a.ID = c.CUSTOMER_ID
+        </if>
+        where a.DELETED=0
+        <if test="segments != null and segments.size > 0">
+            and b.SEGMENT_ID in
+            (-1,
+            <foreach collection="segments" item="x" separator=",">
+                #{x}
+            </foreach>
+            )
+        </if>
+        <if test="memberTypeIds != null and memberTypeIds.size > 0">
+            and c.MEMBERTYPE_ID in
+            (-1,
+            <foreach collection="memberTypeIds" item="x" separator=",">
+                #{x}
+            </foreach>
+            )
+        </if>
+        <if test="customer.name != null and customer.name!=''">
+            and a.NAME like #{customer.name}||'%'
+        </if>
+        <if test="customer.phone != null and customer.phone!=''">
+            and a.PHONE = #{customer.phone}
+        </if>
+        <if test="customer.email != null and customer.email!=''">
+            and a.EMAIL = #{customer.email}
+        </if>
+        <if test="customer.customerCode != null and customer.customerCode!=''">
+            and a.CUSTOMER_CODE = #{customer.customerCode}
+        </if>
+        <if test="customer.lineId != null and customer.lineId!=''">
+            and a.LINE_ID = #{customer.lineId}
+        </if>
+        <if test="customer.lineBotChannelToken != null and customer.lineBotChannelToken!=''">
+            and a.LINE_BOT_CHANNEL_TOKEN = #{customer.lineBotChannelToken}
+        </if>
+        <if test="sortSql != null">
+            ${sortSql}
+        </if>
+    </select>
+    <select id="maxId" resultType="java.lang.Long">
+        select max(id)
+        from MM_CUSTOMER
+    </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmSegmentMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmSegment">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="startTime" column="START_TIME" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="END_TIME" jdbcType="TIMESTAMP"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="invalid" column="INVALID" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,NAME,START_TIME,
+        END_TIME,CREATOR,LAST_UPDATER,GMT_CREATE,GMT_MODIFIED,
+        INVALID
+    </sql>
+    <select id="list" resultType="com.makro.mall.admin.pojo.entity.MmSegment">
+        select
+        <include refid="Base_Column_List"/>
+        from MM_SEGMENT
+        <where>
+            <if test="mmSegmentVO !=null and mmSegmentVO.name!=null and mmSegmentVO.name!=''">
+                and name like '%'||#{mmSegmentVO.name}||'%'
+            </if>
+            <if test="mmSegmentVO !=null and mmSegmentVO.invalid!=null">
+                and invalid = #{mmSegmentVO.invalid}
+            </if>
+        </where>
+            <if test="sortSql !=null">
+                ${sortSql}
+            </if>
+    </select>
+    <select id="maxId" resultType="java.lang.Long">
+        select max(id)
+        from MM_SEGMENT
+    </select>
+</mapper>

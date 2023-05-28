@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmPublishJobMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmPublishJob">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="relatedFlow" column="RELATED_FLOW" jdbcType="DECIMAL"/>
+        <result property="mediaType" column="MEDIA_TYPE" jdbcType="VARCHAR"/>
+        <result property="sendByEmail" column="SEND_BY_EMAIL" jdbcType="DECIMAL"/>
+        <result property="sendByLine" column="SEND_BY_LINE" jdbcType="DECIMAL"/>
+        <result property="sendBySms" column="SEND_BY_SMS" jdbcType="DECIMAL"/>
+        <result property="pdfSize" column="PDF_SIZE" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="publishStatus" column="PUBLISH_STATUS" jdbcType="DECIMAL"/>
+        <result property="buildTime" column="BUILD_TIME" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="appTitle" column="APP_TITLE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,RELATED_FLOW,MEDIA_TYPE,
+        SEND_BY_EMAIL,SEND_BY_LINE,PDF_SIZE,
+        GMT_CREATE,GMT_MODIFIED,CREATOR,
+        FILE_PATH,MM_CODE,STATUS,
+        PUBLISH_STATUS,SEND_BY_SMS,BUILD_TIME,DELETED,APP_TITLE
+    </sql>
+</mapper>

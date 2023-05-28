@@ -1,0 +1,18 @@
+tenant: "public"
+namespace: "default"
+name: "stat-click-functions"
+className: "com.makro.mall.stat.ods.StatClickFunction"
+jar: "/pulsar/examples/mall-stat-functions-0.0.1-SNAPSHOT.jar"
+inputs:
+  - "persistent://public/default/mail_stat_goods_click"
+  - "persistent://public/default/mail_stat_page_view"
+  - "persistent://public/default/mail_stat_page_stay"
+  - "persistent://public/default/mail_stat_app_uv"
+userConfig:
+  "publish-goods-click-sink-topic": "persistent://public/default/mail_stat_goods_click_sink"
+  "publish-page-view-sink-topic": "persistent://public/default/mail_stat_page_view_sink"
+  "publish-page-stay-topic": "persistent://public/default/mail_stat_page_stay_sink"
+  "publish-app-uv-topic": "persistent://public/default/mail_stat_app_uv_sink"
+autoAck: true
+parallelism: 2
+runtime: JAVA

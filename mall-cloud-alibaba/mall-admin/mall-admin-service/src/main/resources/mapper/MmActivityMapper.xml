@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmActivityMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmActivity">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="storeCode" column="STORE_CODE" jdbcType="VARCHAR"/>
+        <result property="type" column="TYPE" jdbcType="VARCHAR"/>
+        <result property="title" column="TITLE" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="startTime" column="START_TIME" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="END_TIME" jdbcType="TIMESTAMP"/>
+        <result property="mmTemplateCode" column="MM_TEMPLATE_CODE" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="memberType" column="MEMBER_TYPE" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+        <result property="publishStatus" column="PUBLISH_STATUS" jdbcType="DECIMAL"/>
+        <result property="appUrl" column="APP_URL" jdbcType="VARCHAR"/>
+        <result property="publishUrl" column="PUBLISH_URL" jdbcType="VARCHAR"/>
+        <result property="previewUrl" column="PREVIEW_URL" jdbcType="VARCHAR"/>
+        <result property="pages" column="PAGES" jdbcType="VARCHAR"/>
+        <result property="approvalInitiated" column="APPROVAL_INITIATED" jdbcType="DECIMAL"/>
+        <result property="segment" column="SEGMENT" jdbcType="VARCHAR"/>
+        <result property="reserve1" column="RESERVE1" jdbcType="VARCHAR"/>
+        <result property="reserve2" column="RESERVE2" jdbcType="VARCHAR"/>
+        <result property="reserve3" column="RESERVE3" jdbcType="VARCHAR"/>
+        <result property="reserve4" column="RESERVE4" jdbcType="VARCHAR"/>
+        <result property="reserve5" column="RESERVE5" jdbcType="VARCHAR"/>
+        <result property="isQuickCreate" column="IS_QUICK_CREATE" jdbcType="DECIMAL"/>
+        <result property="productSegment" column="PRODUCT_SEGMENT" jdbcType="VARCHAR"/>
+        <result property="appTitle" column="APP_Title" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,MM_CODE,STORE_CODE,
+        TYPE,TITLE,REMARK,
+        START_TIME,END_TIME,MM_TEMPLATE_CODE,
+        STATUS,GMT_CREATE,GMT_MODIFIED,
+        DELETED,MEMBER_TYPE,CREATOR,
+        LAST_UPDATER,PUBLISH_STATUS,PUBLISH_URL,APP_URL,
+        PREVIEW_URL,PAGES,APPROVAL_INITIATED,
+        SEGMENT,RESERVE1,RESERVE2,RESERVE3,RESERVE4,RESERVE5,IS_QUICK_CREATE,PRODUCT_SEGMENT,APP_Title
+    </sql>
+
+    <update id="updateBatchForFailure" parameterType="java.util.List">
+        update MM_ACTIVITY set PUBLISH_STATUS=2 where id IN
+        ( -1,
+        <foreach collection="ids" item="id" index="index" separator=",">
+            #{id}
+        </foreach>
+        )
+
+    </update>
+
+    <select id="list" resultType="com.makro.mall.admin.pojo.entity.MmActivity">
+        select a.ID,a.MM_CODE,a.STORE_CODE,a.TYPE,a.MEMBER_TYPE,a.TITLE,a.REMARK,
+        a.START_TIME,a.END_TIME,a.MM_TEMPLATE_CODE,a.STATUS,a.GMT_CREATE,
+        a.GMT_MODIFIED,a.DELETED,a.CREATOR,a.LAST_UPDATER,a.APP_URL,
+        a.PUBLISH_STATUS,a.PUBLISH_URL,a.PREVIEW_URL,a.PAGES,a.APPROVAL_INITIATED,a.SEGMENT
+        ,a.RESERVE1,a.RESERVE2,a.RESERVE3,a.RESERVE4,a.RESERVE5,a.IS_QUICK_CREATE,a.PRODUCT_SEGMENT,a.APP_Title
+        ,count(distinct d.ITEM_CODE) as itemCount
+        from MM_ACTIVITY a
+        left join MM_DETAIL d on a.MM_CODE = d.MM_CODE
+        where a.DELETED = 0
+        <if test='dto.title!=null and dto.title.trim() neq  ""'>
+            and a.TITLE like concat(concat('%',#{dto.title}),'%')
+        </if>
+        <if test='dto.type!=null and dto.type.trim() neq  ""'>
+            and a.TYPE = #{dto.type}
+        </if>
+        <if test='dto.status!=null'>
+            and a.STATUS = #{dto.status}
+        </if>
+        <if test='dto.statusList!=null'>
+            and a.STATUS in
+            <foreach collection="dto.statusList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test='dto.startTime!=null'>
+            <![CDATA[ AND a.START_TIME >= TO_DATE(TO_CHAR(#{dto.startTime},'YYYY-MM-DD'),'YYYY-MM-DD')]]>
+        </if>
+        <if test='dto.endTime!=null'>
+            <![CDATA[ AND a.END_TIME < TO_DATE(TO_CHAR(#{dto.endTime},'YYYY-MM-DD'),'YYYY-MM-DD')]]>
+        </if>
+        <if test='dto.storeCode!=null'>
+            <foreach collection="dto.storeCode" item="item" open="AND (" close=")" separator="or">
+                a.STORE_CODE like concat(concat('%',#{item}),'%')
+            </foreach>
+        </if>
+        <if test='dto.code != null and dto.code.trim() neq ""'>
+            and a.MM_CODE = #{dto.code}
+        </if>
+        <if test='dto.itemCode != null and dto.itemCode.trim() neq ""'>
+            and a.MM_CODE in ${dto.itemCode}
+        </if>
+        group by a.ID,a.MM_CODE,a.STORE_CODE,a.TYPE,a.MEMBER_TYPE,a.TITLE,a.REMARK,
+        a.START_TIME,a.END_TIME,a.MM_TEMPLATE_CODE,a.STATUS,a.GMT_CREATE,
+        a.GMT_MODIFIED,a.DELETED,a.CREATOR,a.LAST_UPDATER,a.APP_URL,
+        a.PUBLISH_STATUS,a.PUBLISH_URL,a.PREVIEW_URL,a.PAGES,a.APPROVAL_INITIATED,a.SEGMENT
+        ,a.RESERVE1,a.RESERVE2,a.RESERVE3,a.RESERVE4,a.RESERVE5,a.IS_QUICK_CREATE,a.PRODUCT_SEGMENT,a.APP_Title
+        order by a.GMT_MODIFIED DESC,a.GMT_CREATE DESC
+    </select>
+</mapper>

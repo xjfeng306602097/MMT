@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmStoreMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmStore">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="sort" column="SORT" jdbcType="DECIMAL"/>
+    </resultMap>
+
+</mapper>

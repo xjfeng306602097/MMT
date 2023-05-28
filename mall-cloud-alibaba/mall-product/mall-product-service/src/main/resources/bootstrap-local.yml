@@ -1,0 +1,49 @@
+server:
+  port: ${custom.port:8200}
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  application:
+    name: makro-product
+  cloud:
+    nacos:
+      # 注册中心
+      discovery:
+        server-addr: ${custom.nacos.address:10.58.5.152:8848}
+        group: ${custom.nacos.discovery.group:LOCAL_GROUP_1}
+      # 配置中心
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        group: ${custom.nacos.config.group:DEV_GROUP}
+        shared-configs[0]:
+          data-id: ${spring.cloud.nacos.config.prefix}.${spring.cloud.nacos.config.file-extension}
+          refresh: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 50MB
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #'prometheus,health'
+        exclude: "shutdown"
+      base-path: /actuator
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        step: 1ms
+        descriptions: true
+    tags:
+      # 为指标设置一个Tag，这里设置为应用名，Tag是Prometheus提供的一种能力，从而实现更加灵活的筛选
+      application: ${spring.application.name}
+  health:
+    elasticsearch:
+      enabled: false

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.file.mapper.ElementTreeMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.file.pojo.entity.MmElementTree">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="parentId" column="PARENT_ID" jdbcType="DECIMAL"/>
+        <result property="elementId" column="ELEMENT_ID" jdbcType="DECIMAL"/>
+        <result property="type" column="TYPE" jdbcType="VARCHAR"/>
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,NAME,PARENT_ID,
+        ELEMENT_ID,TYPE,USER_ID,
+        REMARK,GMT_CREATE,GMT_MODIFIED,
+        DELETED
+    </sql>
+</mapper>

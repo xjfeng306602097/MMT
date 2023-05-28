@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.makro.mall.common.util.SpringContextHolder,\
+  com.makro.mall.common.util.MessageUtils,\
+  com.makro.mall.common.health.service.HealthCheckService,\
+  com.makro.mall.common.model.BaseResponse
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ItemCodeSegmentMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ItemCodeSegment">
+        <result property="itemCode" column="ITEM_CODE" jdbcType="VARCHAR"/>
+        <result property="segmentId" column="SEGMENT_ID" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ITEM_CODE,SEGMENT_ID
+    </sql>
+</mapper>

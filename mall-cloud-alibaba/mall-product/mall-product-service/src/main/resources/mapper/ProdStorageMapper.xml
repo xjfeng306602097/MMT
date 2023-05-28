@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ProdStorageMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ProdStorage">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="itemcode" column="ITEMCODE" jdbcType="VARCHAR"/>
+        <result property="namethai" column="NAMETHAI" jdbcType="VARCHAR"/>
+        <result property="nameen" column="NAMEEN" jdbcType="VARCHAR"/>
+        <result property="qty1unit" column="QTY1UNIT" jdbcType="VARCHAR"/>
+        <result property="pack" column="PACK" jdbcType="VARCHAR"/>
+        <result property="model" column="MODEL" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="normalprice" column="NORMALPRICE" jdbcType="DECIMAL"/>
+        <result property="promoprice" column="PROMOPRICE" jdbcType="DECIMAL"/>
+        <result property="isvalid" column="ISVALID" jdbcType="INTEGER"/>
+        <result property="categoryid" column="CATEGORYID" jdbcType="DECIMAL"/>
+        <result property="lastmodifydataid" column="LASTMODIFYDATAID" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,ITEMCODE,NAMETHAI,
+        NAMEEN,QTY1UNIT,PACK,MODEL,ISVALID,NORMALPRICE,PROMOPRICE,
+        CREATOR,CATEGORYID,GMT_CREATE,GMT_MODIFIED,
+        LASTMODIFYDATAID
+    </sql>
+    <select id="list" resultType="com.makro.mall.product.pojo.entity.ProdStorage">
+        select
+        <include refid="Base_Column_List"/>
+        from Prod_Storage
+        <where>
+            <if test='segmentId != null and segmentId != ""'>
+                and ID IN (select ITEM_CODE from ITEM_CODE_SEGMENT where SEGMENT_ID = #{segmentId})
+            </if>
+            <if test='storage.itemcode!=null and storage.itemcode.trim() neq ""'>
+                and ITEMCODE like concat(concat('%',#{storage.itemcode}),'%')
+            </if>
+            <if test='storage.nameen!=null and storage.nameen.trim() neq ""'>
+                and NAMEEN like concat(concat('%',#{storage.nameen}),'%')
+            </if>
+            <if test='storage.namethai!=null and storage.namethai.trim() neq ""'>
+                and NAMETHAI like concat(concat('%',#{storage.namethai}),'%')
+            </if>
+            <if test='storage.categoryid!=null'>
+                and CATEGORYID = #{storage.categoryid}
+            </if>
+            <if test='storage.isvalid!=null'>
+                and ISVALID = #{storage.isvalid}
+            </if>
+            order by CATEGORYID,ID
+        </where>
+    </select>
+</mapper>

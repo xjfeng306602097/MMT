@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.VisitorClicksOnProductMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.VisitorClicksOnProduct">
+        <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+        <result property="member" column="member_type" jdbcType="OTHER"/>
+        <result property="productClick" column="product_click" jdbcType="OTHER"/>
+        <result property="date" column="date" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mm_code
+        ,member,product_click,
+        date
+    </sql>
+    <insert id="saveVisitorClicksOnProduct">
+        INSERT INTO
+        visitor_clicks_on_product
+        VALUES
+        <foreach collection="list" item="x" separator=",">
+            (
+            #{x.mmCode},
+            #{member},
+            #{x.productClick},
+            ${time}
+            )
+        </foreach>
+    </insert>
+    <select id="list" resultType="com.makro.mall.stat.pojo.snapshot.VisitorClicksOnProduct">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM visitor_clicks_on_product WHERE date ${sql} AND mm_code=#{mmCode}
+    </select>
+    <select id="hasTimeData" resultType="java.lang.Boolean">
+        SELECT 1
+        from visitor_clicks_on_product
+        where date ${s} limit 1
+    </select>
+</mapper>

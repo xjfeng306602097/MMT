@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmPublishJobEmailTaskMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmPublishJobEmailTask">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="mmPublishJobId" column="MM_PUBLISH_JOB_ID" jdbcType="DECIMAL"/>
+        <result property="workTime" column="WORK_TIME" jdbcType="TIMESTAMP"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="subject" column="SUBJECT" jdbcType="VARCHAR"/>
+        <result property="blacklist" column="BLACKLIST" jdbcType="VARCHAR"/>
+        <result property="whitelist" column="WHITELIST" jdbcType="VARCHAR"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="template" column="TEMPLATE" jdbcType="VARCHAR"/>
+        <result property="pageNo" column="PAGE_NO" jdbcType="VARCHAR"/>
+        <result property="reviewUrl" column="REVIEW_URL" jdbcType="VARCHAR"/>
+        <result property="publishUrl" column="PUBLISH_URL" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,MM_PUBLISH_JOB_ID,WORK_TIME,
+        STATUS,GMT_CREATE,GMT_MODIFIED,
+        CREATOR,MM_CUSTOMER_ID,SUBJECT,BLACKLIST,WHITELIST,MM_CODE,TEMPLATE,PAGE_NO,REVIEW_URL,PUBLISH_URL
+    </sql>
+    <select id="page" resultType="com.makro.mall.admin.pojo.vo.MmPublishJobEmailTaskRepVO">
+        SELECT a.*
+        ,b.SEGMENT as mmSegment
+        ,b.STORE_CODE as mmStore
+        FROM MM_PUBLISH_JOB_EMAIL_TASK a
+        JOIN MM_ACTIVITY b ON a.MM_CODE = b.MM_CODE
+        <if test="req.startWorkTime!=null and  req.endWorkTime!=null">
+            and a.WORK_TIME between #{req.startWorkTime} and #{req.endWorkTime}
+        </if>
+        <if test="req.status!=null">
+            and a.STATUS = #{req.status}
+        </if>
+        <if test="req.subject!=null and req.subject!=''">
+            and a.SUBJECT like '%' || #{req.subject} || '%'
+        </if>
+        <if test="req.storeCode!=null and req.storeCode!=''">
+            and b.STORE_CODE = #{req.storeCode}
+        </if>
+        <if test="req.mmCode!=null and req.mmCode!=''">
+            and b.MM_CODE = #{req.mmCode}
+        </if>
+        <if test="req.jobId!=null and req.jobId!=''">
+            and a.ID = #{req.jobId}
+        </if>
+        <if test="sortSql!=null">
+            ${sortSql}
+        </if>
+    </select>
+</mapper>

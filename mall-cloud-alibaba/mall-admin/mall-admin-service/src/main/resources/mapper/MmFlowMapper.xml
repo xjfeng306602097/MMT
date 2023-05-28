@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmFlowMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmFlow">
+        <result property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="currentRole" column="CURRENT_ROLE" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="type" column="TYPE" jdbcType="VARCHAR"/>
+        <result property="lastDetailId" column="LAST_DETAIL_ID" jdbcType="DECIMAL"/>
+        <result property="configJson" column="CONFIG_JSON" jdbcType="VARCHAR"/>
+        <result property="step" column="STEP" jdbcType="DECIMAL"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="previewUrl" column="PREVIEW_URL" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,CODE,NAME,
+        CURRENT_ROLE,CREATOR,LAST_UPDATER,
+        GMT_CREATE,GMT_MODIFIED,STATUS,
+        DELETED,TYPE,LAST_DETAIL_ID,
+        CONFIG_JSON,STEP,DESCRIPTION,PREVIEW_URL
+    </sql>
+    <select id="getLastOne" resultType="com.makro.mall.admin.pojo.entity.MmFlow">
+        SELECT *
+        FROM (SELECT R.*, ROW_NUMBER() OVER (ORDER BY R.GMT_CREATE DESC) RNUM
+              FROM MM_FLOW R
+              WHERE R.code = #{code}) TEMP
+        WHERE RNUM = 1
+    </select>
+</mapper>

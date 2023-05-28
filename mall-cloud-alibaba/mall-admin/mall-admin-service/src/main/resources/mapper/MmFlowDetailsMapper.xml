@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmFlowDetailsMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmFlowDetails">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="authUser" column="AUTH_USER" jdbcType="VARCHAR"/>
+        <result property="flowOption" column="FLOW_OPTION" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="nextAuthRole" column="NEXT_AUTH_ROLE" jdbcType="VARCHAR"/>
+        <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+        <result property="lastAuthRole" column="LAST_AUTH_ROLE" jdbcType="VARCHAR"/>
+        <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR"/>
+        <result property="step" column="STEP" jdbcType="DECIMAL"/>
+        <result property="stepName" column="STEP_NAME" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,CODE,AUTH_USER,
+        FLOW_OPTION,GMT_CREATE,GMT_MODIFIED,
+        NEXT_AUTH_ROLE,DELETED,LAST_AUTH_ROLE,
+        FILE_PATH,IMAGE_LIST,STEP,
+        STEP_NAME,REMARK
+    </sql>
+</mapper>

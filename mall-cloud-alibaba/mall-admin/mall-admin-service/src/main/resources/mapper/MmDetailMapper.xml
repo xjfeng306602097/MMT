@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmDetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmDetail">
+        <id property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="itemCode" column="ITEM_CODE" jdbcType="VARCHAR"/>
+        <result property="pageSort" column="PAGE_SORT" jdbcType="DECIMAL"/>
+        <result property="sort" column="SORT" jdbcType="DECIMAL"/>
+        <result property="isValid" column="IS_VALID" jdbcType="DECIMAL"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+        <result property="prodDataId" column="PROD_DATA_ID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,MM_CODE,ITEM_CODE,
+        PAGE_SORT,SORT,IS_VALID,
+        STATUS
+    </sql>
+</mapper>

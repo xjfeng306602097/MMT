@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.PageViewLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.metadata.PageViewLog">
+        <result property="ip" column="ip" jdbcType="OTHER"/>
+        <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
+        <result property="event" column="event" jdbcType="OTHER"/>
+        <result property="uuid" column="uuid" jdbcType="OTHER"/>
+        <result property="bizId" column="bizId" jdbcType="OTHER"/>
+        <result property="userAgent" column="userAgent" jdbcType="OTHER"/>
+        <result property="mobile" column="mobile" jdbcType="OTHER"/>
+        <result property="browser" column="browser" jdbcType="OTHER"/>
+        <result property="browserVersion" column="browserVersion" jdbcType="OTHER"/>
+        <result property="platform" column="platform" jdbcType="OTHER"/>
+        <result property="os" column="os" jdbcType="OTHER"/>
+        <result property="osVersion" column="osVersion" jdbcType="OTHER"/>
+        <result property="engine" column="engine" jdbcType="OTHER"/>
+        <result property="engineVersion" column="engineVersion" jdbcType="OTHER"/>
+        <result property="referer" column="referer" jdbcType="OTHER"/>
+        <result property="totalCount" column="totalCount" jdbcType="OTHER"/>
+        <result property="eventDate" column="eventDate" jdbcType="DATE"/>
+        <result property="memberNo" column="memberNo" jdbcType="OTHER"/>
+        <result property="memberType" column="memberType" jdbcType="OTHER"/>
+        <result property="mmCode" column="mmCode" jdbcType="OTHER"/>
+        <result property="storeCode" column="storeCode" jdbcType="OTHER"/>
+        <result property="channel" column="channel" jdbcType="OTHER"/>
+        <result property="publishType" column="publishType" jdbcType="OTHER"/>
+        <result property="pageNo" column="pageNo" jdbcType="OTHER"/>
+        <result property="pageUrl" column="pageUrl" jdbcType="OTHER"/>
+        <result property="isNew" column="isNew" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ip
+        ,ts,event,
+        uuid,bizId,userAgent,
+        mobile,browser,browserVersion,
+        platform,os,osVersion,
+        engine,engineVersion,referer,
+        totalCount,eventDate,memberNo,
+        memberType,mmCode,storeCode,
+        channel,publishType,pageNo,
+        pageUrl,isNew
+    </sql>
+
+    <select id="selectTimeBehaviorData" resultType="com.makro.mall.stat.pojo.snapshot.BehaviorData">
+        select mmCode as mmcode, count(DISTINCT uuid) uv, count(DISTINCT bizId) pv
+        from page_view_log
+        where eventDate ${sql}
+        group by mmCode
+    </select>
+    <select id="selectTimeBehaviorDataMv" resultType="com.makro.mall.stat.pojo.snapshot.BehaviorData">
+        select mmcode, count() mv
+        from (select mmCode as mmcode
+              from page_view_log
+              where eventDate ${sql}
+                and memberNo != ''
+              group by mmCode, memberNo) a
+        group by a.mmcode
+    </select>
+    <select id="selectTimeAverageVisitorVisits"
+            resultType="com.makro.mall.stat.pojo.dto.AverageVisitorVisitsPvMvDTO">
+        select mmCode, count(DISTINCT bizId) as pv
+        from page_view_log
+        where eventDate = ${sql}
+        <choose>
+            <when test=" channel == 'APP'">
+                AND channel = 'app'
+            </when>
+            <when test=" channel == 'All'">
+            </when>
+            <otherwise>
+                AND channel != 'app'
+            </otherwise>
+        </choose>
+        group by mmCode
+    </select>
+    <select id="selectTimeAverageVisitorVisitsMv"
+            resultType="com.makro.mall.stat.pojo.dto.AverageVisitorVisitsPvMvDTO">
+        select mmcode, count() mv
+        from (select mmCode as mmcode
+        from page_view_log
+        where eventDate = ${s}
+        and memberNo != ''
+        <choose>
+            <when test=" channel == 'APP'">
+                AND channel = 'app'
+            </when>
+            <when test=" channel == 'All'">
+            </when>
+            <otherwise>
+                AND channel != 'app'
+            </otherwise>
+        </choose>
+        group by mmCode, memberNo) a
+        group by a.mmcode
+    </select>
+    <select id="selectTimeChannelVisitorConversion"
+            resultType="com.makro.mall.stat.pojo.snapshot.ChannelVisitorConversion">
+        select mmCode, channel, count(DISTINCT bizId) as value, count(DISTINCT uuid) as uv
+        from page_view_log
+        where eventDate = ${sql}
+        group by mmCode, channel
+    </select>
+    <select id="listForVisitDetails" resultType="com.makro.mall.stat.pojo.vo.VisitorDataVO">
+        select ts as createTime
+        , pageUrl as url
+        , memberNo
+        , memberType
+        , ip
+        , mmCode
+        , storeCode
+        , platform
+        , os as device
+        , channel
+        from page_view_log
+        where ts ${sql}
+        <if test="visitorDataDTO.ip != null and visitorDataDTO.ip != ''">
+            and ip = toIPv4(#{visitorDataDTO.ip})
+        </if>
+        <if test="visitorDataDTO.platform != null and visitorDataDTO.platform != ''">
+            and platform = #{visitorDataDTO.platform}
+        </if>
+        <if test="visitorDataDTO.channel != null and visitorDataDTO.channel != ''">
+            and channel = #{visitorDataDTO.channel}
+        </if>
+        <if test="visitorDataDTO.mmCode != null and visitorDataDTO.mmCode != ''">
+            and mmCode = #{visitorDataDTO.mmCode}
+        </if>
+        order by ts DESC
+    </select>
+    <select id="selectYesterdayMemberTypeClickThroughRate"
+            resultType="com.makro.mall.stat.pojo.snapshot.AssemblyDataByMemberType">
+        select mmCode, memberType, count(DISTINCT uuid) as uv,count(DISTINCT bizId) as pv
+        from page_view_log
+        where eventDate = ${s}
+        group by mmCode, memberType
+    </select>
+    <select id="listVisitSummary" resultType="com.makro.mall.stat.pojo.dto.VisitSummaryDTO">
+        select mmCode, count(DISTINCT bizId) as total
+        from page_view_log pv
+        where ts ${sql}
+        GROUP BY mmCode
+    </select>
+    <select id="listVisitorSummary" resultType="com.makro.mall.stat.pojo.dto.VisitSummaryDTO">
+        select mmCode, count(DISTINCT uuid) as total
+        from page_view_log
+        where ts ${sql}
+        GROUP BY mmCode
+    </select>
+    <select id="selectTimeBehaviorDataTotalUv" resultType="java.lang.Long">
+        select count(DISTINCT uuid) uv
+        from page_view_log
+        where eventDate = ${sql}
+    </select>
+    <select id="selectTimeBehaviorDataTotalMv" resultType="java.lang.Long">
+        select count(distinct memberNo) mv
+        from page_view_log
+        where eventDate = ${sql}
+          and memberNo != ''
+    </select>
+    <select id="selectTimeBehaviorDataNewUv" resultType="com.makro.mall.stat.pojo.snapshot.BehaviorData">
+        select mmCode, count(distinct uuid) newUv
+        from page_view_log
+        where eventDate = ${sql}
+          and isNew = 1
+        group by mmCode
+    </select>
+    <select id="selectTimeBehaviorDataTotalNewUv" resultType="java.lang.Long">
+        select count(distinct uuid) newUv
+        from page_view_log
+        where eventDate = ${sql}
+          and isNew = 1
+    </select>
+    <select id="listByPageNo" resultType="com.makro.mall.stat.pojo.snapshot.PagePageNo">
+        select mmCode, pageNo,channel, count(DISTINCT bizId) as pv, count(distinct uuid) as uv, count() as count, ${sql} date
+        from page_view_log
+        where eventDate = ${sql}
+          and pageNo != ''
+        group by mmCode, pageNo,channel
+    </select>
+    <select id="listByTime" resultType="com.makro.mall.stat.pojo.snapshot.PageChannelMemberType">
+        select mmCode, channel, memberType, count(DISTINCT bizId) as pv, count(distinct uuid) as uv, ${date} date
+        from page_view_log
+        where eventDate = ${date}
+          and memberType != ''
+        group by mmCode, channel, memberType
+    </select>
+    <select id="getCustomerExportDTO" resultType="com.makro.mall.stat.manager.MmCustomerExportDTO">
+        select
+        mmCode as communicationName,
+        channel as channel,
+        memberType as customerType,
+        memberNo as customerId,
+        pageNo as pageNo,
+        goodsCode as itemClicks
+        from mall_stat.page_view_log a
+        left join goods_click_log b on a.bizId = b.bizId
+        where a.eventDate between #{startTime} and #{endTime}
+        and a.pageNo = b.pageNo
+        <if test="mmCode != null  and mmCode != ''">
+            and mmCode = #{mmCode}
+        </if>
+        group by
+        mmCode,
+        channel,
+        memberType,
+        memberNo,
+        pageNo, goodsCode;
+        a.member_no,
+        a.page_no
+    </select>
+</mapper>

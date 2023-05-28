@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.SysUser">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="nickname" column="NICKNAME" jdbcType="VARCHAR"/>
+        <result property="gender" column="GENDER" jdbcType="INTEGER"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="INTEGER"/>
+        <result property="avatar" column="AVATAR" jdbcType="VARCHAR"/>
+        <result property="phone" column="PHONE" jdbcType="VARCHAR"/>
+        <result property="email" column="EMAIL" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="INTEGER"/>
+        <result property="lang" column="LANG" jdbcType="VARCHAR"/>
+        <result property="loginNum" column="LOGIN_NUM" jdbcType="INTEGER"/>
+        <result property="lastLoginIp" column="LAST_LOGIN_IP" jdbcType="VARCHAR"/>
+        <result property="lastLoginTime" column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="DELETED" jdbcType="INTEGER"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <collection property="roles" ofType="string" javaType="list">
+            <result column="roleCode"></result>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,USERNAME,NICKNAME,PASSWORD,DEPT_ID,GENDER,AVATAR,PHONE,EMAIL,STATUS
+        ,LANG,LOGIN_NUM,LAST_LOGIN_IP,LAST_LOGIN_TIME,DELETED,GMT_CREATE,GMT_MODIFIED
+    </sql>
+
+    <resultMap id="UserAuthMap" type="com.makro.mall.admin.pojo.dto.UserAuthDTO">
+        <id property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <collection property="roles" ofType="string" javaType="list">
+            <result column="roleCode"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getByUsername" resultMap="UserAuthMap">
+        select t1.ID USER_ID, t1.USERNAME, t1.NICKNAME, t1.PASSWORD, t1.STATUS, t3.CODE roleCode
+        from SYS_USER t1
+                 left join SYS_USER_ROLE t2
+                           on t1.ID = t2.USER_ID
+                 left join SYS_ROLE t3
+                           on t2.ROLE_ID = t3.ID
+        where t1.USERNAME = #{username}
+          and t1.DELETED = 0
+    </select>
+
+
+    <select id="list" resultType="com.makro.mall.admin.pojo.entity.SysUser">
+        select distinct u.ID,u.USERNAME,u.NICKNAME,u.GENDER,u.AVATAR,u.PHONE,u.EMAIL,
+        u.STATUS,u.LANG,u.LOGIN_NUM,u.LAST_LOGIN_IP,u.LAST_LOGIN_TIME,u.DELETED,
+        u.GMT_CREATE,u.GMT_MODIFIED,d.NAME as dept_name,LISTAGG(r.NAME, ',') WITHIN GROUP (ORDER BY r.NAME)
+        OVER (PARTITION BY u.id) as roleNames
+        from SYS_USER u
+        left join SYS_DEPT d on u.DEPT_ID= d.ID
+        left join SYS_USER_ROLE ur on u.id=ur.USER_ID
+        left join SYS_ROLE r on ur.ROLE_ID=r.ID
+        where 1=1
+        <if test='user.username!=null and user.username.trim() neq  ""'>
+            and u.USERNAME like concat(concat('%',#{user.username}),'%')
+        </if>
+        <if test='user.nickname!=null and user.nickname.trim() neq  ""'>
+            and u.NICKNAME like concat(concat('%',#{user.nickname}),'%')
+        </if>
+        <if test='user.phone!=null and user.phone.trim() neq ""'>
+            and u.PHONE like concat(concat('%',#{user.phone}),'%')
+        </if>
+        <if test='user.status!=null'>
+            and u.STATUS = #{user.status}
+        </if>
+        <if test='user.deptId!=null'>
+            and concat(concat(',',concat(concat(d.TREE_PATH,','),d.ID)),',') like
+            concat(concat('%,',#{user.deptId}),',%')
+        </if>
+        <if test="user.roleIds != null and user.roleIds.size > 0">
+            and u.ID in
+            (select DISTINCT USER_ID from SYS_USER_ROLE where ROLE_ID in
+            <foreach collection="user.roleIds" item="roleId" open="(" separator="," close=")">
+                #{roleId}
+            </foreach>
+            )
+        </if>
+        <!-- 最后登录start -->
+        <if test="user.lastLoginTimeStart !=null">
+            and u.LAST_LOGIN_TIME &gt;= to_date(#{user.lastLoginTimeStart},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <!-- 最后登录end -->
+        <if test="user.lastLoginTimeEnd !=null">
+            and u.LAST_LOGIN_TIME &lt;= to_date(#{user.lastLoginTimeEnd},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        group by
+        u.ID,u.USERNAME,u.NICKNAME,u.GENDER,u.AVATAR,u.PHONE,u.EMAIL,u.STATUS,u.LANG,u.LOGIN_NUM,u.LAST_LOGIN_IP,u.LAST_LOGIN_TIME,u.DELETED,
+        u.GMT_CREATE,u.GMT_MODIFIED,d.NAME,r.NAME
+        order by u.LAST_LOGIN_TIME desc
+        NULLS LAST
+    </select>
+</mapper>

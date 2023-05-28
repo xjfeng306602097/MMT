@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmCustomerMembertypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmCustomerMembertype">
+        <result property="customerId" column="CUSTOMER_ID" jdbcType="DECIMAL"/>
+        <result property="membertypeId" column="MEMBERTYPE_ID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        CUSTOMER_ID
+        ,MEMBERTYPE_ID
+    </sql>
+
+
+    <select id="getSendCustomerIdsByMemberTypeIds" resultType="java.lang.Long">
+
+        SELECT DISTINCT CUSTOMER_ID FROM MM_CUSTOMER_MEMBERTYPE
+        <where>
+            <if test="ids != null and ids.size > 0">
+                AND MEMBERTYPE_ID IN(
+                <foreach collection="ids" item="id" index="index" separator=",">
+                    #{id}
+                </foreach>
+                )
+            </if>
+        </where>
+    </select>
+</mapper>

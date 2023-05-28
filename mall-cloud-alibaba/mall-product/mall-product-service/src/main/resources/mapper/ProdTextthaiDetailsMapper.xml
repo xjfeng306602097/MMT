@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.product.mapper.ProdTextthaiDetailsMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.product.pojo.entity.ProdTextthaiDetails">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="channelType" column="CHANNEL_TYPE" jdbcType="VARCHAR"/>
+        <result property="article" column="ARTICLE" jdbcType="VARCHAR"/>
+        <result property="userDesc" column="USER_DESC" jdbcType="VARCHAR"/>
+        <result property="detail" column="DETAIL" jdbcType="VARCHAR"/>
+        <result property="step1" column="STEP1" jdbcType="VARCHAR"/>
+        <result property="promo" column="PROMO" jdbcType="VARCHAR"/>
+        <result property="unitPack" column="UNIT_PACK" jdbcType="VARCHAR"/>
+        <result property="priceUnit" column="PRICE_UNIT" jdbcType="VARCHAR"/>
+        <result property="priceOff" column="PRICE_OFF" jdbcType="VARCHAR"/>
+        <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+        <result property="infoid" column="INFOID" jdbcType="VARCHAR"/>
+        <result property="categoryid" column="CATEGORYID" jdbcType="DECIMAL"/>
+        <result property="dataid" column="DATAID" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+        <result property="isvalid" column="ISVALID" jdbcType="INTEGER"/>
+        <result property="mmCode" column="MM_CODE" jdbcType="VARCHAR"/>
+        <result property="icon1" column="ICON1" jdbcType="VARCHAR"/>
+        <result property="icon2" column="ICON2" jdbcType="VARCHAR"/>
+        <result property="icon3" column="ICON3" jdbcType="VARCHAR"/>
+        <result property="iconRemark" column="ICON_REMARK" jdbcType="VARCHAR"/>
+        <result property="step2" column="STEP2" jdbcType="VARCHAR"/>
+        <result property="step2unit" column="STEP2UNIT" jdbcType="VARCHAR"/>
+        <result property="step3" column="STEP3" jdbcType="VARCHAR"/>
+        <result property="step3unit" column="STEP3UNIT" jdbcType="VARCHAR"/>
+        <result property="step4" column="STEP4" jdbcType="VARCHAR"/>
+        <result property="step4unit" column="STEP4UNIT" jdbcType="VARCHAR"/>
+        <result property="userRemark1" column="USER_REMARK1" jdbcType="VARCHAR"/>
+        <result property="userRemark2Theme" column="USER_REMARK2_THEME" jdbcType="VARCHAR"/>
+        <result property="userPage" column="USER_PAGE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,CHANNEL_TYPE,ARTICLE,
+        USER_DESC,DETAIL,STEP1,
+        PROMO,UNIT_PACK,PRICE_UNIT,
+        PRICE_OFF,CREATOR,INFOID,
+        CATEGORYID,DATAID,GMT_CREATE,
+        GMT_MODIFIED,ISVALID,MM_CODE,
+        ICON1,ICON2,ICON3,
+        ICON_REMARK,STEP2,STEP2UNIT,
+        STEP3,STEP3UNIT,STEP4,
+        STEP4UNIT,USER_REMARK1,USER_REMARK2_THEME,
+        USER_PAGE
+    </sql>
+</mapper>

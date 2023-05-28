@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.PageStayLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.metadata.PageStayLog">
+        <result property="ip" column="ip" jdbcType="OTHER"/>
+        <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
+        <result property="event" column="event" jdbcType="OTHER"/>
+        <result property="uuid" column="uuid" jdbcType="OTHER"/>
+        <result property="bizId" column="biz_id" jdbcType="OTHER"/>
+        <result property="userAgent" column="user_agent" jdbcType="OTHER"/>
+        <result property="mobile" column="mobile" jdbcType="OTHER"/>
+        <result property="browser" column="browser" jdbcType="OTHER"/>
+        <result property="browserVersion" column="browser_version" jdbcType="OTHER"/>
+        <result property="platform" column="platform" jdbcType="OTHER"/>
+        <result property="os" column="os" jdbcType="OTHER"/>
+        <result property="osVersion" column="os_version" jdbcType="OTHER"/>
+        <result property="engine" column="engine" jdbcType="OTHER"/>
+        <result property="engineVersion" column="engine_version" jdbcType="OTHER"/>
+        <result property="referer" column="referer" jdbcType="OTHER"/>
+        <result property="totalCount" column="total_count" jdbcType="OTHER"/>
+        <result property="eventDate" column="event_date" jdbcType="DATE"/>
+        <result property="memberNo" column="member_no" jdbcType="OTHER"/>
+        <result property="memberType" column="member_type" jdbcType="OTHER"/>
+        <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+        <result property="storeCode" column="store_code" jdbcType="OTHER"/>
+        <result property="channel" column="channel" jdbcType="OTHER"/>
+        <result property="publishType" column="publish_type" jdbcType="OTHER"/>
+        <result property="pageNo" column="page_no" jdbcType="OTHER"/>
+        <result property="isNew" column="is_new" jdbcType="OTHER"/>
+        <result property="stayTime" column="stay_time" jdbcType="OTHER"/>
+        <result property="pageType" column="page_type" jdbcType="OTHER"/>
+        <result property="goodsType" column="goods_type" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ip
+        ,ts,event,
+        uuid,biz_id,user_agent,
+        mobile,browser,browser_version,
+        platform,os,os_version,
+        engine,engine_version,referer,
+        total_count,event_date,member_no,
+        member_type,mm_code,store_code,
+        channel,publish_type,page_no,
+        is_new,stay_time,page_type,
+        goods_type
+    </sql>
+    <select id="getCustomerExportDTO" resultType="com.makro.mall.stat.manager.MmCustomerExportDTO">
+        select
+        mm_code as communicationName,
+        channel as channel,
+        member_type as customerType,
+        member_no as customerId,
+        page_no as pageNo,
+        sum(stay_time) as pageStayTime
+        from page_stay_log
+        where event_date between #{startTime} and #{endTime}
+        <if test="mmCode != null  and mmCode != ''">
+            and mm_code = #{mmCode}
+        </if>
+        group by
+        mm_code,
+        channel,
+        member_type,
+        member_no,
+        page_no
+    </select>
+
+
+</mapper>

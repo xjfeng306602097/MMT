@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.stat.mapper.BehaviorDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.stat.pojo.snapshot.BehaviorData">
+        <result property="mmCode" column="mm_code" jdbcType="OTHER"/>
+        <result property="pv" column="pv" jdbcType="OTHER"/>
+        <result property="uv" column="uv" jdbcType="OTHER"/>
+        <result property="mv" column="mv" jdbcType="OTHER"/>
+        <result property="date" column="date" jdbcType="DATE"/>
+        <result property="newUv" column="new_uv" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mm_code,pv,uv,mv,date,new_uv
+    </sql>
+    <insert id="saveBehaviorData">
+        INSERT INTO
+        behavior_data(<include refid="Base_Column_List"/>)
+        VALUES
+        <foreach collection="list" item="x" separator=",">
+            (
+            #{x.mmCode},
+            #{x.pv},
+            #{x.uv},
+            #{x.mv},
+            ${time},
+            #{x.newUv}
+            )
+        </foreach>
+    </insert>
+    <select id="list" resultType="com.makro.mall.stat.pojo.snapshot.BehaviorData">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM behavior_data WHERE date ${sql}
+        <if test="mmCode!=null and mmCode!=''">
+            and mm_code=#{mmCode}
+        </if>
+    </select>
+    <select id="hasTimeData" resultType="java.lang.Boolean">
+        SELECT 1
+        from behavior_data
+        where date ${sql}
+        limit 1
+    </select>
+    <select id="mostVisitPage" resultType="com.makro.mall.stat.pojo.snapshot.BehaviorData">
+
+    </select>
+</mapper>

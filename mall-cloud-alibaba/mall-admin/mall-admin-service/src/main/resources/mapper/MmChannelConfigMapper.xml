@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.makro.mall.admin.mapper.MmChannelConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.makro.mall.admin.pojo.entity.MmChannelConfig">
+            <id property="id" column="ID" jdbcType="DECIMAL"/>
+            <result property="channelName" column="CHANNEL_NAME" jdbcType="VARCHAR"/>
+            <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+            <result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
+            <result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+            <result property="lastUpdater" column="LAST_UPDATER" jdbcType="VARCHAR"/>
+            <result property="deleted" column="DELETED" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,CHANNEL_NAME,STATUS,
+        GMT_CREATE,GMT_MODIFIED,CREATOR,
+        LAST_UPDATER,DELETED,CONFIG
+    </sql>
+</mapper>

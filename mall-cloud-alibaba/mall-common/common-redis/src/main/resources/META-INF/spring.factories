@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.makro.mall.common.redis.RedisConfig,\
+  com.makro.mall.common.redis.BusinessNoGenerator,\
+  com.makro.mall.common.redis.utils.RedisUtils,\
+  com.makro.mall.common.redis.cache.RedisCacheConfig
+

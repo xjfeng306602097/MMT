@@ -80,14 +80,14 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
 
             HorizontalCellStyleStrategy horizontalCellStyleStrategy = getStrategy();
 
-            //clicksSummary(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
-            //mostVisitPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
-            //mostItemClickPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
-            //customerType(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
-            //channel(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
-            //clicksData(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
-            //pageStayTime(mmCode, startTime, endTime, start, end, excelWriter, horizontalCellStyleStrategy);
-            //customerTypeClicks(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            clicksSummary(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            mostVisitPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            mostItemClickPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            customerType(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
+            channel(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
+            clicksData(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
+            pageStayTime(mmCode, startTime, endTime, start, end, excelWriter, horizontalCellStyleStrategy);
+            customerTypeClicks(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
             mmCustomerExport(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
 
             excelWriter.finish();

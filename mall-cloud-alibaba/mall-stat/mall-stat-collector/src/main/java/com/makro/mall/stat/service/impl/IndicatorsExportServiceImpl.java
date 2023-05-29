@@ -100,7 +100,7 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
         List<MmCustomerExportDTO> dtos = pageViewLogService.getCustomerExportDTO(StrUtil.equals(mmCode, "0") ? null : mmCode, start, end);
         List<MmCustomerExportDTO> pageStay = pageStayLogService.getCustomerExportDTO(StrUtil.equals(mmCode, "0") ? null : mmCode, start, end);
         List<MmCustomerExportDTO> goodsClick = goodsClickLogService.getCustomerExportDTO(StrUtil.equals(mmCode, "0") ? null : mmCode, start, end);
-        List<String> customerIds = dtos.stream().map(x -> String.valueOf(x.getCustomerId())).collect(Collectors.toList());
+        List<String> customerIds = dtos.stream().map(MmCustomerExportDTO::getCustomerId).collect(Collectors.toList());
         List<MmCustomer> mmCustomers = customerFeignClient.getByIds(customerIds).getData();
         List<MmCustomerExportDTO> result = dtos.stream().peek(x -> {
             //填充页面停留
@@ -131,7 +131,7 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
             x.setTotalClicks(goodsClickSum);
             //转换会员类型
             x.setCustomerType(CustomerTypeEnum.getCustomerType(x.getCustomerType()));
-            MmCustomer mmCustomer = mmCustomers.stream().filter(y -> ObjectUtil.equals(y.getId(), x.getCustomerId())).findFirst().get();
+            MmCustomer mmCustomer = mmCustomers.stream().filter(y -> StrUtil.equals(String.valueOf(y.getId()), x.getCustomerId())).findFirst().get();
             if (ObjectUtil.isNotNull(mmCustomer)) {
                 //填充用户信息
                 x.setMemberId(mmCustomer.getCustomerCode());

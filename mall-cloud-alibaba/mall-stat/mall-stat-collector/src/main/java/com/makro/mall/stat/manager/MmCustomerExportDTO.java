@@ -50,5 +50,5 @@ public class MmCustomerExportDTO {
     @ColumnWidth(20)
     private BigDecimal pageStayTime;
 
-    private Long customerId;
+    private String customerId;
 }

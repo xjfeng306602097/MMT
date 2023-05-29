@@ -83,7 +83,7 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
             mostItemClickPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
             customerType(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
             channel(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
-            clicksData(mmCode, startTime, endTime, start, end, excelWriter, horizontalCellStyleStrategy);
+            clicksData(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
             pageStayTime(mmCode, startTime, endTime, start, end, excelWriter, horizontalCellStyleStrategy);
             customerTypeClicks(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
             mmCustomerExport(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
@@ -131,13 +131,11 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
             x.setTotalClicks(goodsClickSum);
             //转换会员类型
             x.setCustomerType(CustomerTypeEnum.getCustomerType(x.getCustomerType()));
-            if (StrUtil.isNotEmpty(x.getCustomerId())) {
-                MmCustomer mmCustomer = mmCustomers.stream().filter(y -> StrUtil.equals(String.valueOf(y.getId()), x.getCustomerId())).findFirst().get();
-                if (ObjectUtil.isNotNull(mmCustomer)) {
-                    //填充用户信息
-                    x.setMemberId(mmCustomer.getCustomerCode());
-                    x.setMobilePhone(mmCustomer.getPhone());
-                }
+            MmCustomer mmCustomer = mmCustomers.stream().filter(y -> StrUtil.equals(String.valueOf(y.getId()), x.getCustomerId())).findFirst().get();
+            if (ObjectUtil.isNotNull(mmCustomer)) {
+                //填充用户信息
+                x.setMemberId(mmCustomer.getCustomerCode());
+                x.setMobilePhone(mmCustomer.getPhone());
             }
         }).collect(Collectors.toList());
 
@@ -447,7 +445,7 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
         }
     }
 
-    private void clicksData(String mmCode, Date startTime, Date endTime, String start, String end, ExcelWriter excelWriter, HorizontalCellStyleStrategy horizontalCellStyleStrategy) {
+    private void clicksData(String mmCode, Date startTime, Date endTime, ExcelWriter excelWriter, HorizontalCellStyleStrategy horizontalCellStyleStrategy) {
         List<SummaryOfClicksDTO> list51 = indicatorsService.summaryOfClicks(mmCode, startTime, endTime, "email,sms,line,facebook,app");
         WriteSheet writeSheet5 = EasyExcel.writerSheet(no += 1, "Clicks Data").build();
         WriteTable writeTable1 = EasyExcel.writerTable(1)
@@ -457,10 +455,10 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
 
         if (ObjectUtil.notEqual(mmCode, "0")) {
             List<ProductAnalysis> list52 = productAnalysisService.list(new QueryWrapper<ProductAnalysis>()
-                    .select("goods_code,name_en,name_thai,page_no,sum(clicks) as clicks,sum(visitors) as visitors")
+                    .select("goods_code,name_en,name_thai,page_no,channel,sum(clicks) as clicks,sum(visitors) as visitors")
                     .eq("mm_code", mmCode)
                     .between("date", DateUtil.format(startTime, "yyyy-MM-dd"), DateUtil.format(endTime, "yyyy-MM-dd"))
-                    .groupBy("goods_code,name_en,name_thai,page_no"));
+                    .groupBy("goods_code,name_en,name_thai,page_no,channel"));
 
             if (DateUtil.isSameDay(endTime, new Date())) {
                 List<ProductAnalysis> collect = assemblyManager.getProductAnalyses(endTime).stream().filter(x -> StrUtil.equals(x.getMmCode(), mmCode)).collect(Collectors.toList());

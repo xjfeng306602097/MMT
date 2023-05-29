@@ -201,6 +201,7 @@
         left join goods_click_log b on a.bizId = b.bizId
         where a.eventDate between #{startTime} and #{endTime}
         and a.pageNo = b.pageNo
+        and a.memberNo != ''
         <if test="mmCode != null  and mmCode != ''">
             and mmCode = #{mmCode}
         </if>

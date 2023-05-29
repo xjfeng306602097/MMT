@@ -131,11 +131,13 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
             x.setTotalClicks(goodsClickSum);
             //转换会员类型
             x.setCustomerType(CustomerTypeEnum.getCustomerType(x.getCustomerType()));
-            MmCustomer mmCustomer = mmCustomers.stream().filter(y -> StrUtil.equals(String.valueOf(y.getId()), x.getCustomerId())).findFirst().get();
-            if (ObjectUtil.isNotNull(mmCustomer)) {
-                //填充用户信息
-                x.setMemberId(mmCustomer.getCustomerCode());
-                x.setMobilePhone(mmCustomer.getPhone());
+            if (StrUtil.isNotEmpty(x.getCustomerId())) {
+                MmCustomer mmCustomer = mmCustomers.stream().filter(y -> StrUtil.equals(String.valueOf(y.getId()), x.getCustomerId())).findFirst().get();
+                if (ObjectUtil.isNotNull(mmCustomer)) {
+                    //填充用户信息
+                    x.setMemberId(mmCustomer.getCustomerCode());
+                    x.setMobilePhone(mmCustomer.getPhone());
+                }
             }
         }).collect(Collectors.toList());
 

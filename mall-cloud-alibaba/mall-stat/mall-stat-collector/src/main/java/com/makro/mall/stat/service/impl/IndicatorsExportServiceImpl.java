@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.makro.mall.admin.api.CustomerFeignClient;
+import com.makro.mall.admin.api.MmActivityFeignClient;
 import com.makro.mall.admin.pojo.entity.MmCustomer;
 import com.makro.mall.stat.manager.AssemblyManager;
 import com.makro.mall.stat.manager.MmCustomerExportDTO;
@@ -56,8 +57,9 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
     private final PageStayLogService pageStayLogService;
     private final AssemblyService assemblyService;
     private final GoodsClickLogService goodsClickLogService;
-    private final CustomerFeignClient customerFeignClient;
     private final PageViewLogService pageViewLogService;
+    private final CustomerFeignClient customerFeignClient;
+    private final MmActivityFeignClient mmActivityFeignClient;
 
 
     private Integer no = 0;
@@ -78,14 +80,14 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
 
             HorizontalCellStyleStrategy horizontalCellStyleStrategy = getStrategy();
 
-            clicksSummary(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
-            mostVisitPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
-            mostItemClickPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
-            customerType(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
-            channel(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
-            clicksData(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
-            pageStayTime(mmCode, startTime, endTime, start, end, excelWriter, horizontalCellStyleStrategy);
-            customerTypeClicks(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            //clicksSummary(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            //mostVisitPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            //mostItemClickPage(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
+            //customerType(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
+            //channel(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
+            //clicksData(mmCode, startTime, endTime, excelWriter, horizontalCellStyleStrategy);
+            //pageStayTime(mmCode, startTime, endTime, start, end, excelWriter, horizontalCellStyleStrategy);
+            //customerTypeClicks(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
             mmCustomerExport(mmCode, start, end, excelWriter, horizontalCellStyleStrategy);
 
             excelWriter.finish();
@@ -101,7 +103,12 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
         List<MmCustomerExportDTO> pageStay = pageStayLogService.getCustomerExportDTO(StrUtil.equals(mmCode, "0") ? null : mmCode, start, end);
         List<MmCustomerExportDTO> goodsClick = goodsClickLogService.getCustomerExportDTO(StrUtil.equals(mmCode, "0") ? null : mmCode, start, end);
         List<String> customerIds = dtos.stream().map(MmCustomerExportDTO::getCustomerId).collect(Collectors.toList());
-        List<MmCustomer> mmCustomers = customerFeignClient.getByIds(customerIds).getData();
+        List<MmCustomer> mmCustomersMap = customerFeignClient.getByIds(customerIds).getData();
+        Map<String, MmCustomer> customerMap = CollUtil.isEmpty(mmCustomersMap) ? CollUtil.empty(ArrayList.class) : mmCustomersMap.stream().collect(Collectors.toMap(x -> String.valueOf(x.getId()), y -> y));
+        List<String> mmCodes = dtos.stream().map(MmCustomerExportDTO::getCommunicationName).collect(Collectors.toList());
+        Map<String, String> mmActivityMap = mmActivityFeignClient.getNameByCodes(mmCodes).getData();
+
+
         List<MmCustomerExportDTO> result = dtos.stream().peek(x -> {
             //填充页面停留
             List<MmCustomerExportDTO> pageStayList = pageStay.stream()
@@ -129,9 +136,11 @@ public class IndicatorsExportServiceImpl implements IndicatorsExportService {
                     .mapToLong(p -> p)
                     .sum();
             x.setTotalClicks(goodsClickSum);
+            //转换MM名称
+            x.setCommunicationName(mmActivityMap.get(x.getCommunicationName()));
             //转换会员类型
             x.setCustomerType(CustomerTypeEnum.getCustomerType(x.getCustomerType()));
-            MmCustomer mmCustomer = mmCustomers.stream().filter(y -> StrUtil.equals(String.valueOf(y.getId()), x.getCustomerId())).findFirst().get();
+            MmCustomer mmCustomer = customerMap.get(x.getCustomerId());
             if (ObjectUtil.isNotNull(mmCustomer)) {
                 //填充用户信息
                 x.setMemberId(mmCustomer.getCustomerCode());

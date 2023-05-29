@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -45,6 +46,12 @@ public class MmActivityFeignFallbackClient implements MmActivityFeignClient {
 
     @Override
     public BaseResponse<List<MmActivity>> listMmCodeByStatus(Long status) {
+        log.error(StatusCode.SERVICE_DEGRADE.getMsg());
+        return BaseResponse.error(StatusCode.SERVICE_DEGRADE);
+    }
+
+    @Override
+    public BaseResponse<Map<String, String>> getNameByCodes(List<String> mmCodes) {
         log.error(StatusCode.SERVICE_DEGRADE.getMsg());
         return BaseResponse.error(StatusCode.SERVICE_DEGRADE);
     }

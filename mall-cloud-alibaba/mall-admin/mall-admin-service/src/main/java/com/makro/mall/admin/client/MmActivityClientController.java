@@ -1,17 +1,18 @@
 package com.makro.mall.admin.client;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.makro.mall.admin.pojo.entity.MmActivity;
 import com.makro.mall.admin.service.MmActivityService;
 import com.makro.mall.common.model.BaseResponse;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author xiaojunfeng
@@ -32,8 +33,20 @@ public class MmActivityClientController {
     }
 
     @GetMapping(value = "/listMmCodeByStatus")
-    public BaseResponse<List<MmActivity>> listMmCodeByStatus(@RequestParam Long status){
+    public BaseResponse<List<MmActivity>> listMmCodeByStatus(@RequestParam Long status) {
         return BaseResponse.success(mmActivityService.list(new LambdaQueryWrapper<MmActivity>().select(MmActivity::getMmCode).eq(MmActivity::getStatus, status)));
+    }
+
+    @PostMapping(value = "/getNameByCodes")
+    public BaseResponse<Map<String, String>> getNameByCodes(@RequestBody List<String> mmCodes) {
+        List<MmActivity> list = mmActivityService.list(new LambdaQueryWrapper<MmActivity>()
+                .select(MmActivity::getMmCode, MmActivity::getTitle)
+                .in(MmActivity::getMmCode, mmCodes));
+        if (CollUtil.isEmpty(list)) {
+            return BaseResponse.success(new HashMap<>());
+        }
+        Map<String, String> map = list.stream().collect(Collectors.toMap(MmActivity::getMmCode, MmActivity::getTitle));
+        return BaseResponse.success(map);
     }
 
 }

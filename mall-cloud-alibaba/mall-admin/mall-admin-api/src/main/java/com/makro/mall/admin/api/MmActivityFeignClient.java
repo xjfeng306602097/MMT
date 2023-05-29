@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xiaojunfeng
@@ -34,4 +35,7 @@ public interface MmActivityFeignClient {
 
     @GetMapping(value = "/api/v1/client/activity/listMmCodeByStatus")
     BaseResponse<List<MmActivity>> listMmCodeByStatus(@RequestParam Long status);
+
+    @PostMapping(value = "/api/v1/client/activity/getNameByCodes")
+    BaseResponse<Map<String,String>> getNameByCodes(@RequestBody List<String> mmCodes);
 }
